@@ -17,7 +17,7 @@ public class Add_Update_Client extends Activity {
     LinearLayout add_view, update_view;
     String valid_mob_number = null, valid_address = null, valid_name = null,
 	    Toast_msg = null, valid_user_id = "",valid_notes = "";
-    int CLIENT_ID;
+    int CLIENT_ID ;
     DatabaseHandler dbHandler = new DatabaseHandler(this);
 
     @Override

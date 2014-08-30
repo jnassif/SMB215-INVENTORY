@@ -10,7 +10,7 @@
         android:layout_marginBottom="15dp"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="Add Warehouse"
+        android:text="Add Client"
         android:textSize="18dp" />
 
     <EditText

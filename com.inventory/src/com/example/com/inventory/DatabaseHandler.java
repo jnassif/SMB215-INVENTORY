@@ -23,6 +23,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_WAREHOUSE = "warehouse";
     private static final String TABLE_PRODUCTS = "products";
     private static final String TABLE_CLIENTS = "clients";
+    private static final String TABLE_INVENTORY = "inventory";
+    private static final String TABLE_INVENTORY_DETAIL = "inventory_detail";
     
     // Contacts Table Columns names
     private static final String KEY_ID = "warehouse";
@@ -42,6 +44,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_CLIENT_ADDRESS = "address";
     private static final String KEY_CLIENT_NOTE = "note";
     private final ArrayList<Client> client_list = new ArrayList<Client>();
+    
+    //inventory table
+    private static final String KEY_INV_ID = "inventory";
+    private static final String KEY_INV_CLIENT = "client";
+    private static final String KEY_INV_NATURE = "nature";
+    private static final String KEY_INV_THEDATE = "thedate";
+    private static final String KEY_INV_WARHOUSE = "warehouse";
+    private static final String KEY_INV_PAYMODE = "payement_mode";
+    private final ArrayList<Inventory> inventory_list = new ArrayList<Inventory>();
+    
+    //inventory table
+    private static final String KEY_INVDET_ID = "inventory";
+    private static final String KEY_INVDET_PRODUCT = "product";
+    private static final String KEY_INVDET_QTY = "quantity";
+    private static final String KEY_INVDET_AMOUNT = "amount";
+    private final ArrayList<InventoryDetail> inventoryDet_list = new ArrayList<InventoryDetail>();
+    
     
     public DatabaseHandler(Context context) {
     	super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -67,6 +86,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		+ KEY_CLIENT_ID + " INTEGER PRIMARY KEY," + KEY_CLIENT_NAME + " TEXT,"
 		+ KEY_CLIENT_ADDRESS + " TEXT," + KEY_CLIENT_NOTE  + " TEXT " +  ")";
 		db.execSQL(CREATE_CLIENT_TABLE);
+		
+	   
+		//create inventory table
+		String CREATE_INVENTORY_TABLE = "CREATE TABLE " + TABLE_INVENTORY + "("
+		+ KEY_INV_ID + " INTEGER PRIMARY KEY," + KEY_INV_CLIENT + " INTEGER,"
+		+ KEY_INV_NATURE + " INTEGER," + KEY_INV_THEDATE  + " TEXT ," + KEY_INV_WARHOUSE + " INTEGER ,"
+		+ KEY_INV_PAYMODE + " INTEGER " + ")";
+		db.execSQL(CREATE_INVENTORY_TABLE);
+		
+		//create inventory detail table
+		String CREATE_INVDET_TABLE = "CREATE TABLE " + TABLE_INVENTORY_DETAIL + "("
+		+ KEY_INVDET_ID + " INTEGER PRIMARY KEY," + KEY_INVDET_PRODUCT + " INTEGER PRIMARY KEY,"
+		+ KEY_INVDET_QTY + " INTEGER," + KEY_INVDET_AMOUNT  + " integer " + ")";
+		db.execSQL(CREATE_INVDET_TABLE);
 	
     }
 
@@ -77,6 +110,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_WAREHOUSE);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CLIENTS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_INVENTORY_DETAIL);
 		// Create tables again
 		onCreate(db);
 	}
@@ -117,6 +152,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		// Inserting Row
 		db.insert(TABLE_CLIENTS, null, values);
+		db.close(); // Closing database connection
+	}
+	
+	// Adding new Inventory
+	public void Add_inventory(Inventory inventory) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_INV_ID, inventory.get_inventory()); // warehouse Name
+		values.put(KEY_INV_CLIENT, inventory.get_client()); // warehouse address Phone
+		values.put(KEY_INV_NATURE, inventory.get_nature()); // warehouse Name
+		values.put(KEY_INV_THEDATE, inventory.get_theDate()); // warehouse Name
+		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse()); // warehouse Nam
+		values.put(KEY_INV_PAYMODE, inventory.get_paymode()); // warehouse Name
+		
+		// Inserting Row
+		db.insert(TABLE_INVENTORY, null, values);
+		db.close(); // Closing database connection
+	}
+	
+	
+	// Adding new Inventory Detail
+	public void Add_inventory_detail(InventoryDetail inventoryDet) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put(KEY_INVDET_ID, inventoryDet.getInventory()); 
+		values.put(KEY_INVDET_PRODUCT, inventoryDet.getProduct()); 
+		values.put(KEY_INVDET_QTY, inventoryDet.getQuantity()); 
+		values.put(KEY_INVDET_AMOUNT, inventoryDet.getAmount()); 
+		
+		// Inserting Row
+		db.insert(TABLE_INVENTORY_DETAIL, null, values);
 		db.close(); // Closing database connection
 	}
 	
@@ -350,6 +416,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_CLIENTS, KEY_CLIENT_ID + " = ?",
 			new String[] { String.valueOf(id) });
+		db.close();
+    }
+    
+   // Deleting single inventory
+    public void Delete_inventory(int id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_INVENTORY, KEY_INV_ID + " = ?",
+			new String[] { String.valueOf(id) });
+		db.close();
+    }
+    
+  // Deleting single inventory detail
+    public void Delete_inventory_detail(int inv_id , int prod_id) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_INVENTORY_DETAIL, KEY_INVDET_ID + " = ?" + KEY_INVDET_PRODUCT + " =? ",
+			new String[] { String.valueOf(inv_id),String.valueOf(prod_id) });
 		db.close();
     }
     

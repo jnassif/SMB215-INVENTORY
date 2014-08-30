@@ -149,7 +149,7 @@ public class ClientActivity extends Activity{
 		    Intent update_user = new Intent(activity,
 		    		Add_Update_Client.class);
 		    update_user.putExtra("called", "update");
-		    update_user.putExtra("USER_ID", v.getTag().toString());
+		    update_user.putExtra("CLIENT_ID", v.getTag().toString());
 		    activity.startActivity(update_user);
 
 		}
