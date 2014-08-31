@@ -6,7 +6,7 @@ class InventoryDetail {
 	public int quantity;
 	public int amount;
 
-	public InventoryDetail (){}
+	public InventoryDetail(){}
 	
 	public InventoryDetail (int inventory ,int product , int quantity,int amount ){
 		this.inventory = inventory;
@@ -46,6 +46,8 @@ class InventoryDetail {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+
+	
 
 
 	

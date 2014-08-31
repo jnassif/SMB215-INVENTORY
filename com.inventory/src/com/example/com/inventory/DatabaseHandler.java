@@ -54,7 +54,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_INV_PAYMODE = "payement_mode";
     private final ArrayList<Inventory> inventory_list = new ArrayList<Inventory>();
     
-    //inventory table
+    //inventoryDet table
     private static final String KEY_INVDET_ID = "inventory";
     private static final String KEY_INVDET_PRODUCT = "product";
     private static final String KEY_INVDET_QTY = "quantity";
@@ -176,10 +176,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void Add_inventory_detail(InventoryDetail inventoryDet) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(KEY_INVDET_ID, inventoryDet.getInventory()); 
-		values.put(KEY_INVDET_PRODUCT, inventoryDet.getProduct()); 
-		values.put(KEY_INVDET_QTY, inventoryDet.getQuantity()); 
-		values.put(KEY_INVDET_AMOUNT, inventoryDet.getAmount()); 
+		values.put(KEY_INVDET_ID,		inventoryDet.getInventory()); 
+		values.put(KEY_INVDET_PRODUCT,  inventoryDet.getProduct()); 
+		values.put(KEY_INVDET_QTY, 		inventoryDet.getQuantity()); 
+		values.put(KEY_INVDET_AMOUNT, 	inventoryDet.getAmount()); 
 		
 		// Inserting Row
 		db.insert(TABLE_INVENTORY_DETAIL, null, values);
@@ -241,6 +241,50 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.close();
 	
 		return client;
+    }
+    
+    
+    // Getting single inventory
+    Inventory Get_inventory(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_INVENTORY, new String[] { KEY_INV_ID,
+				KEY_INV_CLIENT, KEY_INV_NATURE,KEY_INV_THEDATE,KEY_INV_WARHOUSE,KEY_INV_PAYMODE
+				}, KEY_INV_ID + "=?",
+			new String[] { String.valueOf(id) }, null, null, null, null);
+		if (cursor != null)
+		    cursor.moveToFirst();
+	
+		Inventory inventory = new Inventory(Integer.parseInt(cursor.getString(0)),
+			Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)),cursor.getString(3),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
+		// return contact
+		cursor.close();
+		db.close();
+	
+		return inventory;
+    }
+    
+    // Getting single inventory detail
+    InventoryDetail Get_inventoryDet(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		Cursor cursor = db.query(TABLE_INVENTORY_DETAIL, new String[] { KEY_INVDET_ID,
+				KEY_INVDET_PRODUCT, KEY_INVDET_QTY,KEY_INVDET_AMOUNT}, KEY_INV_ID + "=?",
+			new String[] { String.valueOf(id) }, null, null, null, null);
+		if (cursor != null)
+		    cursor.moveToFirst();
+	
+		InventoryDetail inventoryDet = new InventoryDetail(
+				Integer.parseInt(cursor.getString(0)),
+					Integer.parseInt(cursor.getString(1)),
+					Integer.parseInt(cursor.getString(2)),
+					Integer.parseInt(cursor.getString(3))
+		);
+		// return contact
+		cursor.close();
+		db.close();
+	
+		return inventoryDet;
     }
     
     
@@ -353,7 +397,86 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	return client_list;
     }
     
+   
     
+ // Getting All inventories
+    public ArrayList<Inventory> Get_inventories() {
+		try {
+			inventory_list.clear();
+	
+		    // Select All Query
+		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY;
+	
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    Cursor cursor = db.rawQuery(selectQuery, null);
+	
+		    // looping through all rows and adding to list
+		    if (cursor.moveToFirst()) {
+			do {
+				Inventory inventory= new Inventory();
+				inventory.set_inventory(Integer.parseInt(cursor.getString(0)));
+				inventory.set_client(Integer.parseInt(cursor.getString(1)));
+				inventory.set_nature(Integer.parseInt(cursor.getString(2)));
+				inventory.set_theDate(cursor.getString(3));
+				inventory.set_warehouse(Integer.parseInt(cursor.getString(4)));
+				inventory.set_paymode(Integer.parseInt(cursor.getString(5)));
+			    
+			    // Adding clients to list
+				inventory_list.add(inventory);
+			} while (cursor.moveToNext());
+		   }
+	
+		    // return client list
+		    cursor.close();
+		    db.close();
+		    return inventory_list;
+		} catch (Exception e) {
+		    // TODO: handle exception
+		    Log.e("all_inventories", "" + e);
+		}
+
+	return inventory_list;
+    }
+    
+
+	 // Getting All inventories detail
+    public ArrayList<InventoryDetail> Get_inventoriesDet() {
+		try {
+			inventoryDet_list.clear();
+	
+		    // Select All Query
+		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY_DETAIL;
+	
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    Cursor cursor = db.rawQuery(selectQuery, null);
+	
+		    // looping through all rows and adding to list
+		    if (cursor.moveToFirst()) {
+			do {
+				InventoryDetail inventoryDet= new InventoryDetail();
+				inventoryDet.setInventory(Integer.parseInt(cursor.getString(0)));
+				inventoryDet.setProduct(Integer.parseInt(cursor.getString(1)));
+				inventoryDet.setQuantity(Integer.parseInt(cursor.getString(2)));
+				inventoryDet.setAmount(Integer.parseInt(cursor.getString(3)));
+				
+			    
+			    // Adding clients to list
+				inventoryDet_list.add(inventoryDet);
+			} while (cursor.moveToNext());
+		   }
+	
+		    // return client list
+		    cursor.close();
+		    db.close();
+		    return inventoryDet_list;
+		} catch (Exception e) {
+		    // TODO: handle exception
+		    Log.e("all_inventoriesDet", "" + e);
+		}
+
+	return inventoryDet_list;
+    }		
+    		
     // Updating single warehouse
     public int Update_warehouse(Warehouse warehouse) {
 		SQLiteDatabase db = this.getWritableDatabase();
@@ -392,6 +515,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		// updating row
 		return db.update(TABLE_CLIENTS, values, KEY_CLIENT_ID + " = ?",
 			new String[] { String.valueOf(client.getClient())});
+    }
+    
+
+    // Updating single inventory
+    public int Update_inventory(Inventory inventory) {
+		SQLiteDatabase db = this.getWritableDatabase();
+	
+		ContentValues values = new ContentValues();
+		values.put(KEY_INV_CLIENT, inventory.get_client());
+		values.put(KEY_INV_NATURE, inventory.get_nature());
+		values.put(KEY_INV_THEDATE, inventory.get_theDate());
+		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse());
+		values.put(KEY_INV_PAYMODE, inventory.get_paymode());
+		
+		// updating row
+		return db.update(TABLE_INVENTORY, values, KEY_INV_ID + " = ?",
+			new String[] { String.valueOf(inventory.get_inventory())});
+    }
+    
+ // Updating single inventory detail
+    public int Update_inventoryDet(InventoryDetail inventoryDet) {
+		SQLiteDatabase db = this.getWritableDatabase();
+	
+		ContentValues values = new ContentValues();
+		values.put(KEY_INVDET_PRODUCT, inventoryDet.getProduct());
+		values.put(KEY_INVDET_QTY, inventoryDet.getQuantity());
+		values.put(KEY_INVDET_AMOUNT, inventoryDet.getAmount());
+		
+		// updating row
+		return db.update(TABLE_INVENTORY_DETAIL, values, KEY_INVDET_ID + " = ?",
+			new String[] { String.valueOf(inventoryDet.getInventory())});
     }
     
     
