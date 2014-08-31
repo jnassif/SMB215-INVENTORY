@@ -30,9 +30,28 @@
         android:id="@+id/clientBtn"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+       	android:layout_below="@+id/warehouseBtn"
+       	android:text="Client" />
+    
+    <Button
+        android:id="@+id/OrderBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       	android:layout_below="@+id/clientBtn"
+       	android:text="Order" />
+    <Button
+        android:id="@+id/deliveryBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+       	android:layout_below="@+id/OrderBtn"
+       	android:text="Delivery" />
+    <Button
+        android:id="@+id/invoiceBtn"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
        
-        android:layout_below="@+id/warehouseBtn"
+        android:layout_below="@+id/deliveryBtn"
        
-        android:text="Client" />
+        android:text="Invoice" />
 
 </RelativeLayout>

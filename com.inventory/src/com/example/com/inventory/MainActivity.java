@@ -11,9 +11,13 @@ public class MainActivity extends Activity {
 Button warehouseBtn;
 Button clientBtn;
 Button Product;
+Button order;
+Button delivery;
+Button invoice;
 Intent warehouseActivity;
 Intent clientActivity;
 Intent productActivity;
+Intent inventoryActivity;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,10 @@ Intent productActivity;
 		warehouseBtn = (Button) findViewById(R.id.warehouseBtn);
 		clientBtn 	 = (Button) findViewById(R.id.clientBtn);
 		Product 	 = (Button) findViewById(R.id.productBtn);
+		order 	 	 = (Button) findViewById(R.id.OrderBtn);
+		delivery 	 = (Button) findViewById(R.id.deliveryBtn);
+		invoice 	 = (Button) findViewById(R.id.invoiceBtn);
+		
 		
 		//on click open warehouse activity 
 		warehouseBtn.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +64,44 @@ Intent productActivity;
 				startActivity(productActivity);
 			}
 		});
+		
+		order.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				inventoryActivity.putExtra("condition", "0");
+				startActivity(inventoryActivity);
+			}
+		});
+		
+		delivery.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				inventoryActivity.putExtra("condition", "1");
+				startActivity(inventoryActivity);
+			}
+		});
+		
+		invoice.setOnClickListener(new View.OnClickListener() {
+		
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				inventoryActivity.putExtra("condition", "2");
+				startActivity(inventoryActivity);
+			}
+		});	
+		
+		
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
