@@ -19,6 +19,7 @@ public class Inventory {
 		this._paymode   = paymode;
 	}
 
+	
 	public int get_inventory() {
 		return _inventory;
 	}

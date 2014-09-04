@@ -16,6 +16,11 @@ public class Warehouse {
 			this._address    = address;
 		}
 		
+		@Override
+	    public String toString() {
+	        return this.get_warehouse()+" "+this.get_name(); // You can add anything else like maybe getDrinkType()
+	    }
+		
 		
 		public int get_warehouse() {
 			return _warehouse;
