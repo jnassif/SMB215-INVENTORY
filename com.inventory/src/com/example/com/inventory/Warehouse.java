@@ -18,7 +18,7 @@ public class Warehouse {
 		
 		@Override
 	    public String toString() {
-	        return this.get_warehouse()+" "+this.get_name(); // You can add anything else like maybe getDrinkType()
+	        return this.get_warehouse()+"-"+this.get_name(); // You can add anything else like maybe getDrinkType()
 	    }
 		
 		

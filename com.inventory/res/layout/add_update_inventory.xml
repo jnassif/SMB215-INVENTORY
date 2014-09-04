@@ -12,27 +12,62 @@
         android:gravity="center"
         android:text="Add"
         android:textSize="18dp" />
-
-    <Spinner
-        android:id="@+id/client_spiner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <DatePicker
-        android:id="@+id/datePicker1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+	<RelativeLayout 
+	    android:id="@+id/parentView"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical" >
+	    <TextView
+	        android:id="@+id/textView1"
+	        android:layout_width="170px"
+	        android:layout_height="wrap_content"
+	        android:text="Client"
+	        android:textSize="30px"
+	        
+	       />
+	    
+	    <Spinner	
+	        android:id="@+id/client_spiner"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:layout_toRightOf="@+id/textView1"/>
+	</RelativeLayout>
+	<RelativeLayout 
+    android:id="@+id/parentView2"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/warehouseTxt"
+        android:layout_width="170px"
+        android:layout_height="wrap_content"
+        android:text="Warehouse"
+        android:textSize="30px"
+       />
     <Spinner
         android:id="@+id/warehouseSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@+id/warehouseTxt"/>
+	</RelativeLayout>
+	<RelativeLayout 
+    android:id="@+id/parentView3"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/paymodeTxt"
+        android:layout_width="170px"
+        android:layout_height="wrap_content"
+        android:text="Paymode"
+        android:textSize="30px"
+       />
     <Spinner
         android:id="@+id/paymode_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/paymodeTxt" />
+	</RelativeLayout>
     <LinearLayout
         android:id="@+id/add_view"
         android:layout_width="fill_parent"

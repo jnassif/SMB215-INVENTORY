@@ -17,7 +17,7 @@ public class Client {
 
 	@Override
     public String toString() {
-        return this.getClient()+" "+this.getName(); // You can add anything else like maybe getDrinkType()
+        return this.getClient()+"-"+this.getName(); // You can add anything else like maybe getDrinkType()
     }
 	
 	public Client(){};

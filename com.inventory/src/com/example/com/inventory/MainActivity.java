@@ -82,7 +82,7 @@ Intent inventoryActivity;
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
-				inventoryActivity.putExtra("condition", "1");
+				inventoryActivity.putExtra("condition", 1);
 				startActivity(inventoryActivity);
 			}
 		});
@@ -93,7 +93,7 @@ Intent inventoryActivity;
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
-				inventoryActivity.putExtra("condition", "2");
+				inventoryActivity.putExtra("condition", 2);
 				startActivity(inventoryActivity);
 			}
 		});	

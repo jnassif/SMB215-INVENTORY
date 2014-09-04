@@ -1,10 +1,10 @@
 package com.example.com.inventory;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,7 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class Add_Update_Inventory extends Activity{
-	EditText add_name;
+	
 	Spinner add_clients;
 	Spinner add_warehouse;
 	Spinner add_paymode;
@@ -25,7 +25,9 @@ public class Add_Update_Inventory extends Activity{
     String valid_mob_number = null, valid_address = null, valid_name = null,
 	    Toast_msg = null, valid_user_id = "",valid_notes = "" ;
     int INVENTORY_ID;
+    int NATURE;
     int paymode ;
+    
     DatabaseHandler dbHandler = new DatabaseHandler(this);
 
     @Override
@@ -39,7 +41,8 @@ public class Add_Update_Inventory extends Activity{
 
 		// set visibility of view as per calling activity
 		String called_from = getIntent().getStringExtra("called");
-
+		NATURE = Integer.parseInt(getIntent().getStringExtra("inv_nature"));
+		
 	if (called_from.equalsIgnoreCase("add")) {
 	    add_view.setVisibility(View.VISIBLE);
 	    update_view.setVisibility(View.GONE);
@@ -48,6 +51,7 @@ public class Add_Update_Inventory extends Activity{
 	    update_view.setVisibility(View.VISIBLE);
 	    add_view.setVisibility(View.GONE);
 	    INVENTORY_ID = Integer.parseInt(getIntent().getStringExtra("INVENTORY_ID"));
+	    
 
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
 
@@ -61,19 +65,25 @@ public class Add_Update_Inventory extends Activity{
 
 	    @Override
 	    public void onClick(View v) {
-		// TODO Auto-generated method stub
-		// check the value state is null or not
-	    	Client inc = (Client) add_clients.getSelectedItem();
-	    	String invDate =String.valueOf(datePicker.getYear()+'/'+datePicker.getMonth()+'/'+datePicker.getDayOfMonth());
-		    Warehouse war= (Warehouse) add_warehouse.getSelectedItem();
+			
+	    	//get client
+	    	String[] client_inf 	= add_clients.getSelectedItem().toString().split("-");
+	    	int client_id = Integer.parseInt(client_inf[0]);
+	    	//get warehouse
+	    	String[] warehouse_inf 	= add_warehouse.getSelectedItem().toString().split("-");
+	    	int warehouse_id = Integer.parseInt(warehouse_inf[0]);
+	    	//get date 
+	    	Time today = new Time(Time.getCurrentTimezone());
+	    	today.setToNow();
+	    	//get paymode
+	    	int pay_mode = add_paymode.getSelectedItemPosition();
+	    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay"+pay_mode);
 	    	
-	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,inc.getClient(),0,invDate,war.get_warehouse(),add_paymode.getSelectedItemPosition() ));
+	    	
+	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode));
 		    Toast_msg = "Data inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
-
-		
-
 	    }
 	});
 
@@ -147,7 +157,7 @@ public class Add_Update_Inventory extends Activity{
 		add_paymode.setAdapter(paymode_array);
 		add_clients.setAdapter(client_array );
 		add_warehouse.setAdapter(warehouse_array );
-		datePicker = (DatePicker) findViewById(R.id.datePicker1);
+		
 		add_save_btn = (Button) findViewById(R.id.add_save_btn);
 		
 		update_btn = (Button) findViewById(R.id.update_btn);
@@ -169,7 +179,7 @@ public class Add_Update_Inventory extends Activity{
 
     public void Reset_Text() {
 
-		add_name.getText().clear();
+		
 		
 	
 

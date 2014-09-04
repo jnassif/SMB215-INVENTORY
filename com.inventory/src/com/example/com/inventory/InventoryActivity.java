@@ -27,11 +27,13 @@ public class InventoryActivity extends Activity{
     DatabaseHandler db;
     String Toast_msg;
     String meas;
-
+    String nature;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.product_activity);
+	nature =  getIntent().getStringExtra("condition");
 	try {
 		inventory_listview = (ListView) findViewById(R.id.list);
 		inventory_listview.setItemsCanFocus(false);
@@ -50,6 +52,7 @@ public class InventoryActivity extends Activity{
 		// TODO Auto-generated method stub
 		Intent add_user = new Intent(InventoryActivity.this,Add_Update_Inventory.class);
 		add_user.putExtra("called", "add");
+		add_user.putExtra("inv_nature",nature);
 		add_user.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(add_user);
 		finish();
