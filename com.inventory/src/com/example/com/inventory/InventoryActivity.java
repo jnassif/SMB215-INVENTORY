@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +52,9 @@ public class InventoryActivity extends Activity{
 		// TODO Auto-generated method stub
 		Intent add_user = new Intent(InventoryActivity.this,Add_Update_Inventory.class);
 		add_user.putExtra("called", "add");
-		add_user.putExtra("inv_nature",nature);
+		
+		add_user.putExtra("inv_nature",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound") );
+		Log.e("pref",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound"));
 		add_user.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(add_user);
 		finish();
@@ -71,7 +73,8 @@ public class InventoryActivity extends Activity{
     	// remove all the elements from the array 
     	inventory_data.clear();
 		db = new DatabaseHandler(this);
-		ArrayList<Inventory> Inventory_array_from_db = db.Get_inventories();
+		Log.e("Naturee",nature);
+		ArrayList<Inventory> Inventory_array_from_db = db.Get_inventories(Integer.parseInt(nature));
 	
 		for (int i = 0; i < Inventory_array_from_db.size(); i++) {
 	
@@ -157,8 +160,15 @@ public class InventoryActivity extends Activity{
 		    holder.delete.setTag(inventory.get_inventory());
 		    holder.client.setText(client.getName());
 		    
-		    holder.nature.setText(String.valueOf(inventory.get_nature()));
-		    holder.paymode.setText(String.valueOf(inventory.get_paymode()));
+		    String pay_mode ="";
+		    switch(inventory.get_paymode()){
+			    case 0 : pay_mode = "check";break ;
+			    case 1 : pay_mode = "Credit Card";break ;
+			    case 2 : pay_mode = "Visa";break ;
+			}
+		    
+		    //holder.nature.setText(String.valueOf(inventory.get_nature()));
+		    holder.paymode.setText(pay_mode);
 		    holder.thedate.setText(inventory.get_theDate());
 		    holder.warehouse.setText(war.get_name());
 		    
@@ -172,6 +182,7 @@ public class InventoryActivity extends Activity{
 	
 				    Intent update_user = new Intent(activity,Add_Update_Inventory.class);
 				    update_user.putExtra("called", "update");
+				    update_user.putExtra("inv_nature",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound") );
 				    update_user.putExtra("INVENTORY_ID", v.getTag().toString());
 				    activity.startActivity(update_user);
 	
@@ -197,7 +208,7 @@ public class InventoryActivity extends Activity{
 							int which) {
 						    // MyDataObject.remove(positionToRemove);
 						    DatabaseHandler dBHandler = new DatabaseHandler(activity.getApplicationContext());
-						    dBHandler.Delete_product(inventory_id);
+						    dBHandler.Delete_inventory(inventory_id);
 						    InventoryActivity.this.onResume();
 	
 						}

@@ -3,6 +3,7 @@ package com.example.com.inventory;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -71,7 +72,8 @@ Intent inventoryActivity;
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
-				inventoryActivity.putExtra("condition", "0");
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","0").commit();  
+				
 				startActivity(inventoryActivity);
 			}
 		});
@@ -82,7 +84,7 @@ Intent inventoryActivity;
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
-				inventoryActivity.putExtra("condition", 1);
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","1").commit();
 				startActivity(inventoryActivity);
 			}
 		});
@@ -93,7 +95,7 @@ Intent inventoryActivity;
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
-				inventoryActivity.putExtra("condition", 2);
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","2").commit();
 				startActivity(inventoryActivity);
 			}
 		});	

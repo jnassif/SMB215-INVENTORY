@@ -55,7 +55,7 @@ public class Add_Update_Inventory extends Activity{
 
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
 
-	    ArrayAdapter<Inventory> measurement_array= new ArrayAdapter<Inventory>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_inventories());
+	  //  ArrayAdapter<Inventory> measurement_array= new ArrayAdapter<Inventory>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_inventories());
 	    
 	    // dbHandler.close();
 	}
@@ -78,7 +78,7 @@ public class Add_Update_Inventory extends Activity{
 	    	//get paymode
 	    	int pay_mode = add_paymode.getSelectedItemPosition();
 	    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay:"+pay_mode);
-	    	
+	    	Log.e("INVENTORY_ID",String.valueOf(INVENTORY_ID));
 	    	
 	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode));
 		    Toast_msg = "Data inserted successfully";
@@ -93,24 +93,28 @@ public class Add_Update_Inventory extends Activity{
 	    public void onClick(View v) {
 		// TODO Auto-generated method stub
 
-    	Client inc = (Client) add_clients.getSelectedItem();
-    	String invDate =String.valueOf(datePicker.getYear()+'/'+datePicker.getMonth()+'/'+datePicker.getDayOfMonth());
-	    Warehouse war= (Warehouse) add_warehouse.getSelectedItem();
-	    	
+    
+    	//get client
+    	String[] client_inf 	= add_clients.getSelectedItem().toString().split("-");
+    	int client_id = Integer.parseInt(client_inf[0]);
+    	//get warehouse
+    	String[] warehouse_inf 	= add_warehouse.getSelectedItem().toString().split("-");
+    	int warehouse_id = Integer.parseInt(warehouse_inf[0]);
+    	//get date 
+    	Time today = new Time(Time.getCurrentTimezone());
+    	today.setToNow();
+    	//get paymode
+    	int pay_mode = add_paymode.getSelectedItemPosition();
+    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay:"+pay_mode);
+    	Log.e("INVENTORY_ID",String.valueOf(INVENTORY_ID));
+	    
+	    
+	    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode ));
+	    dbHandler.close();
+	    Toast_msg = "Data Update successfully";
+	    Show_Toast(Toast_msg);
+	    Reset_Text();
 		
-		// check the value state is null or not
-		if (valid_name != null  ) {
-
-		    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,inc.getClient(),0,invDate,war.get_warehouse(),add_paymode.getSelectedItemPosition() ));
-		    dbHandler.close();
-		    Toast_msg = "Data Update successfully";
-		    Show_Toast(Toast_msg);
-		    Reset_Text();
-		} else {
-		    Toast_msg = "Sorry Some Fields are missing.\nPlease Fill up all.";
-		    Show_Toast(Toast_msg);
-		}
-
 	    }
 	});
 	update_view_all.setOnClickListener(new View.OnClickListener() {

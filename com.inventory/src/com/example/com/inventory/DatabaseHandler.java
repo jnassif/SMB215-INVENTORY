@@ -159,12 +159,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void Add_inventory(Inventory inventory) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
-		values.put(KEY_INV_ID, inventory.get_inventory()); // warehouse Name
+		
 		values.put(KEY_INV_CLIENT, inventory.get_client()); // warehouse address Phone
 		values.put(KEY_INV_NATURE, inventory.get_nature()); // warehouse Name
 		values.put(KEY_INV_THEDATE, inventory.get_theDate()); // warehouse Name
 		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse()); // warehouse Nam
-		Log.e("paymode",String.valueOf(inventory.get_paymode()));
+		
 		values.put(KEY_INV_PAYMODE, inventory.get_paymode()); // warehouse Name
 		
 		// Inserting Row
@@ -401,12 +401,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
    
     
  // Getting All inventories
-    public ArrayList<Inventory> Get_inventories() {
+    public ArrayList<Inventory> Get_inventories(int nature) {
 		try {
 			inventory_list.clear();
 	
 		    // Select All Query
-		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY;
+		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE "+ KEY_INV_NATURE+"="+nature;
 	
 		    SQLiteDatabase db = this.getWritableDatabase();
 		    Cursor cursor = db.rawQuery(selectQuery, null);
