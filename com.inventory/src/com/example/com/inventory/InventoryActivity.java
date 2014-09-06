@@ -33,7 +33,7 @@ public class InventoryActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.product_activity);
-	nature =  getIntent().getStringExtra("condition");
+	nature =  PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound");
 	try {
 		inventory_listview = (ListView) findViewById(R.id.list);
 		inventory_listview.setItemsCanFocus(false);
@@ -53,8 +53,8 @@ public class InventoryActivity extends Activity{
 		Intent add_user = new Intent(InventoryActivity.this,Add_Update_Inventory.class);
 		add_user.putExtra("called", "add");
 		
-		add_user.putExtra("inv_nature",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound") );
-		Log.e("pref",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound"));
+		add_user.putExtra("inv_nature", nature);
+		
 		add_user.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
 		startActivity(add_user);
 		finish();
@@ -73,7 +73,7 @@ public class InventoryActivity extends Activity{
     	// remove all the elements from the array 
     	inventory_data.clear();
 		db = new DatabaseHandler(this);
-		Log.e("Naturee",nature);
+	
 		ArrayList<Inventory> Inventory_array_from_db = db.Get_inventories(Integer.parseInt(nature));
 	
 		for (int i = 0; i < Inventory_array_from_db.size(); i++) {
@@ -163,7 +163,7 @@ public class InventoryActivity extends Activity{
 		    String pay_mode ="";
 		    switch(inventory.get_paymode()){
 			    case 0 : pay_mode = "check";break ;
-			    case 1 : pay_mode = "Credit Card";break ;
+			    case 1 : pay_mode = "Cash";break ;
 			    case 2 : pay_mode = "Visa";break ;
 			}
 		    
@@ -182,7 +182,7 @@ public class InventoryActivity extends Activity{
 	
 				    Intent update_user = new Intent(activity,Add_Update_Inventory.class);
 				    update_user.putExtra("called", "update");
-				    update_user.putExtra("inv_nature",PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound") );
+				    update_user.putExtra("inv_nature",nature );
 				    update_user.putExtra("INVENTORY_ID", v.getTag().toString());
 				    activity.startActivity(update_user);
 	

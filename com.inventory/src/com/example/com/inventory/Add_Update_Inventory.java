@@ -54,8 +54,10 @@ public class Add_Update_Inventory extends Activity{
 	    
 
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
+	    add_paymode.setSelection(c.get_paymode());
+	    
 
-	  //  ArrayAdapter<Inventory> measurement_array= new ArrayAdapter<Inventory>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_inventories());
+	  
 	    
 	    // dbHandler.close();
 	}
