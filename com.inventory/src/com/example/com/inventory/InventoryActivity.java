@@ -47,7 +47,7 @@ public class InventoryActivity extends Activity{
 	}
 	add_btn.setOnClickListener(new View.OnClickListener() {
 
-	//    @Override
+		//@Override
 	    public void onClick(View v) {
 		// TODO Auto-generated method stub
 		Intent add_user = new Intent(InventoryActivity.this,Add_Update_Inventory.class);
@@ -111,7 +111,7 @@ public class InventoryActivity extends Activity{
 
     }
     
-    //********************* Populate all the warehouses in the list *********************
+    //********************* Populate all the inventories in the list *********************
     public class Inentory_Adapter extends ArrayAdapter<Inventory> {
 		Activity activity;
 		int layoutResourceId;
@@ -147,14 +147,19 @@ public class InventoryActivity extends Activity{
 		    } else {
 		    	holder = (UserHolder) row.getTag();
 		    }
+		    
 		    inventory = data.get(position);
+		   	//set client
+		    Client client= db.Get_client(inventory.get_client());
+		   	Warehouse war = db.Get_warehouse(inventory.get_warehouse());
+		   	
 		    holder.edit.setTag(inventory.get_inventory());
 		    holder.delete.setTag(inventory.get_inventory());
-		    holder.client.setText(inventory.get_client());
+		    holder.client.setText(client.getName());
 		    holder.nature.setText(inventory.get_nature());
 		    holder.paymode.setText(inventory.get_paymode());
 		    holder.thedate.setText(inventory.get_theDate());
-		    holder.warehouse.setText(inventory.get_warehouse());
+		    holder.warehouse.setText(war.get_name());
 		    
 		   
 		    
