@@ -97,8 +97,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		
 		//create inventory detail table
 		String CREATE_INVDET_TABLE = "CREATE TABLE " + TABLE_INVENTORY_DETAIL + "("
-		+ KEY_INVDET_ID + " INTEGER PRIMARY KEY," + KEY_INVDET_PRODUCT + " INTEGER PRIMARY KEY,"
-		+ KEY_INVDET_QTY + " INTEGER," + KEY_INVDET_AMOUNT  + " integer " + ")";
+		+ KEY_INVDET_ID + " INTEGER ," + KEY_INVDET_PRODUCT + " INTEGER ,"
+		+ KEY_INVDET_QTY + " INTEGER," + KEY_INVDET_AMOUNT  + " integer," + "PRIMARY KEY ("+KEY_INVDET_ID+","+ KEY_INVDET_PRODUCT+")"+ ")";
 		db.execSQL(CREATE_INVDET_TABLE);
 	
     }
@@ -164,6 +164,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_INV_NATURE, inventory.get_nature()); // warehouse Name
 		values.put(KEY_INV_THEDATE, inventory.get_theDate()); // warehouse Name
 		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse()); // warehouse Nam
+		Log.e("paymode",String.valueOf(inventory.get_paymode()));
 		values.put(KEY_INV_PAYMODE, inventory.get_paymode()); // warehouse Name
 		
 		// Inserting Row
@@ -418,8 +419,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				inventory.set_client(Integer.parseInt(cursor.getString(1)));
 				inventory.set_nature(Integer.parseInt(cursor.getString(2)));
 				inventory.set_theDate(cursor.getString(3));
+			
 				inventory.set_warehouse(Integer.parseInt(cursor.getString(4)));
+				
 				inventory.set_paymode(Integer.parseInt(cursor.getString(5)));
+				
 			    
 			    // Adding clients to list
 				inventory_list.add(inventory);

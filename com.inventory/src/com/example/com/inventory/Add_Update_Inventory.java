@@ -77,7 +77,7 @@ public class Add_Update_Inventory extends Activity{
 	    	today.setToNow();
 	    	//get paymode
 	    	int pay_mode = add_paymode.getSelectedItemPosition();
-	    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay"+pay_mode);
+	    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay:"+pay_mode);
 	    	
 	    	
 	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode));
