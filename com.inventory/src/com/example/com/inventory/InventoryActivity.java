@@ -155,8 +155,7 @@ public class InventoryActivity extends Activity{
 		   	//set client
 		    Client client= db.Get_client(inventory.get_client());
 		   	Warehouse war = db.Get_warehouse(inventory.get_warehouse());
-		   	Log.e("jasndllansdl","sdlknf;dslnf;lsdfng;lndf;lgmdfg***************8");
-		    holder.edit.setTag(inventory.get_inventory());
+		   	holder.edit.setTag(inventory.get_inventory());
 		    holder.delete.setTag(inventory.get_inventory());
 		    holder.client.setText(client.getName());
 		    

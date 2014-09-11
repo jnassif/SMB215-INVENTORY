@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Add_Update_Inventory extends Activity{
@@ -20,6 +21,10 @@ public class Add_Update_Inventory extends Activity{
 	Spinner add_warehouse;
 	Spinner add_paymode;
 	DatePicker datePicker;
+	
+	Spinner products_spiner;
+	EditText prodQtyEditTxt;
+	
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view;
     String valid_mob_number = null, valid_address = null, valid_name = null,
