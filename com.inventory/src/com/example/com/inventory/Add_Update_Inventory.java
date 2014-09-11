@@ -22,8 +22,10 @@ public class Add_Update_Inventory extends Activity{
 	Spinner add_paymode;
 	DatePicker datePicker;
 	
-	Spinner products_spiner;
+	Spinner  products_spiner;
 	EditText prodQtyEditTxt;
+	EditText prodAmount;
+	Button add_save_prod_btn;
 	
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view;
@@ -158,6 +160,12 @@ public class Add_Update_Inventory extends Activity{
 		
 		add_clients = (Spinner) findViewById(R.id.client_spiner);
 		add_warehouse = (Spinner) findViewById(R.id.warehouseSpinner);
+		
+		//elements to add a new product
+		products_spiner = (Spinner) findViewById(R.id.product_spiner);
+		prodQtyEditTxt = (EditText) findViewById(R.id.prodQtyEditTxt);
+		prodAmount = (EditText) findViewById(R.id.prodAmount);
+		add_save_prod_btn = (Button) findViewById(R.id.add_save_prod_btn);
 		
 		String[] test=new String[]{"Check","Cash","Visa"};
 		ArrayAdapter<String> paymode_array= new ArrayAdapter<String>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, test);
