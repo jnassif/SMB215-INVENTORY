@@ -3,6 +3,8 @@ package com.example.com.inventory;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
@@ -12,7 +14,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Add_Update_Inventory extends Activity{
@@ -121,6 +122,36 @@ public class Add_Update_Inventory extends Activity{
 	    }
 	});
 
+	prodQtyEditTxt.addTextChangedListener(new TextWatcher(){
+
+		@Override
+		public void afterTextChanged(Editable arg0) {
+			// TODO Auto-generated method stub
+			String[] product_inf 	= products_spiner.getSelectedItem().toString().split("-");
+	    	int product_id 	= Integer.parseInt(product_inf[0]);
+	    	
+	    	//get product price 
+	    	Product prod = dbHandler.Get_product(product_id);
+	    	
+	    	//set amount 
+	    	Float amount = Float.parseFloat(prodQtyEditTxt.getText().toString()) * prod.get_price();
+	    	
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before,
+				int count) {
+			// TODO Auto-generated method stub
+			
+		}});
+	
 	update_btn.setOnClickListener(new View.OnClickListener() {
 
 	    @Override
@@ -164,6 +195,8 @@ public class Add_Update_Inventory extends Activity{
 	    }
 	});
 
+	
+	
 	add_view_all.setOnClickListener(new View.OnClickListener() {
 
 	    @Override

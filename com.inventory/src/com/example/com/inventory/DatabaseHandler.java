@@ -137,7 +137,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_PROD_NAME, product.get_name()); // warehouse Name
 		values.put(KEY_PROD_MEASUREMENT, product.get_measurement()); // warehouse address Phone
-		values.put(KEY_PROD_QTY, product.get_price());
+		values.put(KEY_PROD_QTY, product.get_price());//get product price
 		
 		// Inserting Row
 		db.insert(TABLE_PRODUCTS, null, values);

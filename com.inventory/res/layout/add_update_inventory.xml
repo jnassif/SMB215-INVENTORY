@@ -204,17 +204,6 @@
 	        android:textSize="30px"
 	        android:layout_toRightOf="@+id/prodQtyEditTxt" 
 	       />
-	    
-	   <EditText
-		     android:id="@+id/prodAmount"
-		     android:layout_width="170px"
-		     android:layout_height="wrap_content"
-		     android:ems="10" 
-		     android:layout_toRightOf="@+id/amountTxt" 
-		    >
-		    </EditText>  
-
-        <requestFocus />
     
 	</RelativeLayout>
 	<Button
