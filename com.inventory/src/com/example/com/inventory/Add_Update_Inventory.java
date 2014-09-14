@@ -95,6 +95,31 @@ public class Add_Update_Inventory extends Activity{
 		    Reset_Text();
 	    }
 	});
+	
+	add_save_prod_btn.setOnClickListener(new View.OnClickListener() {
+
+	    @Override
+	    public void onClick(View v) {
+			//get inventory id 
+	    	//get the product id
+	    	String[] product_inf 	= products_spiner.getSelectedItem().toString().split("-");
+	    	int product_id 	= Integer.parseInt(product_inf[0]);
+	    	
+	    	//qty 
+	    	int prodQty = Integer.parseInt(prodQtyEditTxt.getText().toString());
+	    	
+	    	//amount
+	    	//int prodAmount = Integer.parseInt();
+	    	
+	    	//get nature 
+	    	
+	    	
+	    	dbHandler.Add_inventory_detail(new InventoryDetail(INVENTORY_ID,product_id,NATURE,prodQty,));
+		    Toast_msg = "Product inserted successfully";
+		    Show_Toast(Toast_msg);
+		    Reset_Text();
+	    }
+	});
 
 	update_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -157,7 +182,6 @@ public class Add_Update_Inventory extends Activity{
     public void Set_Add_Update_Screen() {
 
 		add_paymode = (Spinner) findViewById(R.id.paymode_spinner);
-		
 		add_clients = (Spinner) findViewById(R.id.client_spiner);
 		add_warehouse = (Spinner) findViewById(R.id.warehouseSpinner);
 		
@@ -165,6 +189,8 @@ public class Add_Update_Inventory extends Activity{
 		products_spiner = (Spinner) findViewById(R.id.product_spiner);
 		prodQtyEditTxt = (EditText) findViewById(R.id.prodQtyEditTxt);
 		prodAmount = (EditText) findViewById(R.id.prodAmount);
+		
+		//add new product to inventory
 		add_save_prod_btn = (Button) findViewById(R.id.add_save_prod_btn);
 		
 		String[] test=new String[]{"Check","Cash","Visa"};

@@ -36,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_PROD_ID = "product";
     private static final String KEY_PROD_NAME = "name";
     private static final String KEY_PROD_MEASUREMENT = "measurement";
+    private static final String KEY_PROD_QTY = "quantity";
     private final ArrayList<Product> product_list = new ArrayList<Product>();
 
     //Clients Table Columns names
@@ -78,7 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		//create prodcuts table
 		String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + "("
 		+ KEY_PROD_ID + " INTEGER PRIMARY KEY," + KEY_PROD_NAME + " TEXT,"
-		+ KEY_PROD_MEASUREMENT + " INTEGER " + ")";
+		+ KEY_PROD_MEASUREMENT + " INTEGER, " + KEY_PROD_QTY + " FLOAT "+ ")";
 		db.execSQL(CREATE_PRODUCT_TABLE);
 	
 		//create client table
@@ -136,6 +137,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_PROD_NAME, product.get_name()); // warehouse Name
 		values.put(KEY_PROD_MEASUREMENT, product.get_measurement()); // warehouse address Phone
+		values.put(KEY_PROD_QTY, product.get_price());
 		
 		// Inserting Row
 		db.insert(TABLE_PRODUCTS, null, values);
@@ -211,13 +213,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_PRODUCTS, new String[] { KEY_PROD_ID,
-		KEY_PROD_NAME, KEY_PROD_MEASUREMENT}, KEY_PROD_ID + "=?",
+		KEY_PROD_NAME, KEY_PROD_MEASUREMENT,KEY_PROD_QTY}, KEY_PROD_ID + "=?",
 			new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 		    cursor.moveToFirst();
 	
 		Product product = new Product(Integer.parseInt(cursor.getString(0)),
-			cursor.getString(1), Integer.parseInt(cursor.getString(2)));
+			cursor.getString(1), Integer.parseInt(cursor.getString(2)),Float.parseFloat(cursor.getString(3)));
 		// return contact
 		cursor.close();
 		db.close();
@@ -343,6 +345,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				product.set_product(Integer.parseInt(cursor.getString(0)));
 				product.set_name(cursor.getString(1));
 				product.set_measurement(Integer.parseInt(cursor.getString(2)));
+				product.set_price(Integer.parseInt(cursor.getString(3)));
 			   
 			    // Adding warehouse to list
 				product_list.add(product);
@@ -501,6 +504,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put(KEY_PROD_NAME, product.get_name());
 		values.put(KEY_PROD_MEASUREMENT, product.get_measurement());
+		values.put(KEY_PROD_QTY, product.get_price());
 		
 		// updating row
 		return db.update(TABLE_PRODUCTS, values, KEY_PROD_ID + " = ?",

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 public class Add_Update_Product extends Activity{
 	EditText add_name;
+	EditText add_qty;
 	Spinner add_measurement;
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view;
@@ -62,7 +63,7 @@ public class Add_Update_Product extends Activity{
 		// check the value state is null or not
 	    	Log.e("asda","" +add_measurement.getSelectedItemPosition());
 	    	System.out.println(add_measurement.getSelectedItemPosition()+"sadlasioidas;ondo;asindo;asj");
-		    dbHandler.Add_product(new Product(PRODUCT_ID,add_name.getText().toString(),add_measurement.getSelectedItemPosition()));
+		    dbHandler.Add_product(new Product(PRODUCT_ID,add_name.getText().toString(),add_measurement.getSelectedItemPosition(),add_qty.getText().toString()));
 		    Toast_msg = "Data inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
@@ -128,6 +129,7 @@ public class Add_Update_Product extends Activity{
 
 		add_name = (EditText) findViewById(R.id.add_name);
 		add_measurement = (Spinner) findViewById(R.id.measurement);
+		add_qty = (EditText) findViewById(R.id.add_qty);
 		
 		String[] test=new String[]{"Unit","Kg","L"};
 		ArrayAdapter<String> measurement_array= new ArrayAdapter<String>(Add_Update_Product.this,android.R.layout.simple_spinner_item, test);

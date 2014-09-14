@@ -192,9 +192,10 @@
 		     android:layout_width="170px"
 		     android:layout_height="wrap_content"
 		     android:ems="10" 
-		     android:layout_toRightOf="@+id/prodQty" 
+		     android:layout_toRightOf="@+id/prodQty"
+		     android:inputType="number" 
 		    >
-		    </EditText>
+		</EditText>
 		<TextView
 	        android:id="@+id/amountTxt"
 	        android:layout_width="110px"

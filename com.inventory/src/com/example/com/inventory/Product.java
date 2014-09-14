@@ -6,13 +6,23 @@ public class Product {
 	public int _product ;
 	public String _name ;
 	public int _measurement;
+	public float _price;
 	
-	public Product (int product , String name , int measurement ){
+	public Product (int product , String name , int measurement, float price  ){
 		this._product = product;
 		this._name = name; 
 		this._measurement = measurement;
+		this._price = price ;
 	}
 	
+	public float get_price() {
+		return _price;
+	}
+
+	public void set_price(float _price) {
+		this._price = _price;
+	}
+
 	public Product (){}
 
 	public int get_product() {
