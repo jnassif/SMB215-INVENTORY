@@ -1,19 +1,31 @@
 package com.example.com.inventory;
 
+import java.util.ArrayList;
+
+import com.example.com.inventory.ProductActivity.Product_Adapter;
+import com.example.com.inventory.ProductActivity.Product_Adapter.UserHolder;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class Add_Update_Inventory extends Activity{
@@ -22,12 +34,16 @@ public class Add_Update_Inventory extends Activity{
 	Spinner add_warehouse;
 	Spinner add_paymode;
 	DatePicker datePicker;
-	
+	ArrayList<Product> product_data = new ArrayList<Product>();
 	Spinner  products_spiner;
 	EditText prodQtyEditTxt;
 	EditText prodAmount;
+	ListView product_listview;
+	Product_Adapter cAdapter;
 	Button add_save_prod_btn;
-	
+	TextView amountTxt;
+	String meas;
+	DatabaseHandler db;
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view;
     String valid_mob_number = null, valid_address = null, valid_name = null,
@@ -55,15 +71,16 @@ public class Add_Update_Inventory extends Activity{
 	    add_view.setVisibility(View.VISIBLE);
 	    update_view.setVisibility(View.GONE);
 	} else {
-
+			
 	    update_view.setVisibility(View.VISIBLE);
 	    add_view.setVisibility(View.GONE);
 	    INVENTORY_ID = Integer.parseInt(getIntent().getStringExtra("INVENTORY_ID"));
-	    
+	    product_listview = (ListView) findViewById(R.id.list);
+		product_listview.setItemsCanFocus(false);
 
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
 	    add_paymode.setSelection(c.get_paymode());
-	    
+	    Set_Referash_Data();
 
 	  
 	    
@@ -110,12 +127,9 @@ public class Add_Update_Inventory extends Activity{
 	    	int prodQty = Integer.parseInt(prodQtyEditTxt.getText().toString());
 	    	
 	    	//amount
-	    	//int prodAmount = Integer.parseInt();
+	    	Float amount = Float.parseFloat(amountTxt.getText().toString());
 	    	
-	    	//get nature 
-	    	
-	    	
-	    	dbHandler.Add_inventory_detail(new InventoryDetail(INVENTORY_ID,product_id,NATURE,prodQty,));
+	    	dbHandler.Add_inventory_detail(new InventoryDetail(INVENTORY_ID,product_id,prodQty,amount));
 		    Toast_msg = "Product inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
@@ -132,9 +146,15 @@ public class Add_Update_Inventory extends Activity{
 	    	
 	    	//get product price 
 	    	Product prod = dbHandler.Get_product(product_id);
+	    	String qty = prodQtyEditTxt.getText().toString();
+	    	if (qty.isEmpty() || qty == null){
+	    		qty = "0";
+	    	}
 	    	
 	    	//set amount 
-	    	Float amount = Float.parseFloat(prodQtyEditTxt.getText().toString()) * prod.get_price();
+	    	Float amount = Float.parseFloat(qty) * prod.get_price();
+	    	
+	    	amountTxt.setText(amount.toString());
 	    	
 		}
 
@@ -218,10 +238,11 @@ public class Add_Update_Inventory extends Activity{
 		add_clients = (Spinner) findViewById(R.id.client_spiner);
 		add_warehouse = (Spinner) findViewById(R.id.warehouseSpinner);
 		
+		
 		//elements to add a new product
 		products_spiner = (Spinner) findViewById(R.id.product_spiner);
 		prodQtyEditTxt = (EditText) findViewById(R.id.prodQtyEditTxt);
-		prodAmount = (EditText) findViewById(R.id.prodAmount);
+		amountTxt = (TextView) findViewById(R.id.amountTxt);
 		
 		//add new product to inventory
 		add_save_prod_btn = (Button) findViewById(R.id.add_save_prod_btn);
@@ -230,11 +251,14 @@ public class Add_Update_Inventory extends Activity{
 		ArrayAdapter<String> paymode_array= new ArrayAdapter<String>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, test);
 		ArrayAdapter<Client>client_array= new ArrayAdapter<Client>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_clients());
 		ArrayAdapter<Warehouse>warehouse_array= new ArrayAdapter<Warehouse>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_Warehouses());
+		ArrayAdapter<Product>products_array = new ArrayAdapter<Product>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_Products());
+		
 		
 		//populate spinner
 		add_paymode.setAdapter(paymode_array);
 		add_clients.setAdapter(client_array );
 		add_warehouse.setAdapter(warehouse_array );
+		products_spiner.setAdapter(products_array );
 		
 		add_save_btn = (Button) findViewById(R.id.add_save_btn);
 		
@@ -249,7 +273,140 @@ public class Add_Update_Inventory extends Activity{
 		update_view.setVisibility(View.GONE);
 
     }
+    public void Set_Referash_Data() {
+    	// remove all the elements from the array 
+    	product_data.clear();
+		db = new DatabaseHandler(this);
+		ArrayList<Product> Product_array_from_db = db.Get_Products();
+	
+		for (int i = 0; i < Product_array_from_db.size(); i++) {
+	
+		    int product =     Product_array_from_db.get(i).get_product();
+		    String name =     Product_array_from_db.get(i).get_name();
+		    int measurement = Product_array_from_db.get(i).get_measurement();
+		    Float price     = Product_array_from_db.get(i).get_price();
+		    
+		    Product cnt = new Product();
+		    cnt.set_product(product);
+		    cnt.set_name(name);
+		    cnt.set_measurement(measurement);
+		    cnt.set_price(price);
+		    
+	
+		    product_data.add(cnt);
+		}
+		db.close();
+		cAdapter = new Product_Adapter(Add_Update_Inventory.this, R.layout.listview_row_prod,product_data);
+		product_listview.setAdapter(cAdapter);
+		cAdapter.notifyDataSetChanged();
+    }
+    
+    //********************* Populate all the products  in the list *********************
+    public class Product_Adapter extends ArrayAdapter<Product> {
+		Activity activity;
+		int layoutResourceId;
+		Product product;
+		ArrayList<Product> data = new ArrayList<Product>();
 
+		public Product_Adapter(Activity act, int layoutResourceId,ArrayList<Product> data) {
+		    super(act, layoutResourceId, data);
+		    this.layoutResourceId = layoutResourceId;
+		    this.activity = act;
+		    this.data = data;
+		    notifyDataSetChanged();
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+		    View row = convertView;
+		    UserHolder holder = null;
+		    //set the element for the row in the list view 
+		    if (row == null) {
+				LayoutInflater inflater = LayoutInflater.from(activity);
+	
+				row = inflater.inflate(layoutResourceId, parent, false);
+				holder = new UserHolder();
+				holder.name = (TextView) row.findViewById(R.id.user_name_txt);
+				holder.measurement = (TextView) row.findViewById(R.id.product_meas);
+				holder.product_price = (TextView) row.findViewById(R.id.product_price);
+				holder.edit = (Button) row.findViewById(R.id.btn_update);
+				holder.delete = (Button) row.findViewById(R.id.btn_delete);
+				
+				row.setTag(holder);
+		    } else {
+		    	holder = (UserHolder) row.getTag();
+		    }
+		    product = data.get(position);
+		    holder.edit.setTag(product.get_product());
+		    holder.delete.setTag(product.get_product());
+		    holder.name.setText(product.get_name());
+		    product.get_measurement();
+		    
+		    switch(product.get_measurement()){
+		    	case 0 :meas = "Unit"; break; 
+		    	case 1 :meas = "Kg";break;
+		    	case 2 :meas = "L";break;
+		    }
+		    holder.measurement.setText(meas);
+		    Float price = product.get_price();
+		    holder.product_price.setText(price.toString());
+
+		    holder.edit.setOnClickListener(new OnClickListener() {
+		    	@Override
+				public void onClick(View v) {
+				    // TODO Auto-generated method stub
+				    Log.i("Edit Button Clicked", "**********");
+	
+				    Intent update_user = new Intent(activity,Add_Update_Product.class);
+				    update_user.putExtra("called", "update");
+				    update_user.putExtra("PRODUCT_ID", v.getTag().toString());
+				    activity.startActivity(update_user);
+	
+				}
+		    });
+		    
+		    holder.delete.setOnClickListener(new OnClickListener() {
+			    @Override
+				public void onClick(final View v) {
+				    // TODO Auto-generated method stub
+	
+				    // show a message while loader is loading
+	
+				    AlertDialog.Builder adb = new AlertDialog.Builder(activity);
+				    adb.setTitle("Delete?");
+				    adb.setMessage("Are you sure you want to delete ");
+				    final int product_id = Integer.parseInt(v.getTag().toString());
+				    adb.setNegativeButton("Cancel", null);
+				    adb.setPositiveButton("Ok",
+					    new AlertDialog.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+							int which) {
+						    // MyDataObject.remove(positionToRemove);
+						    DatabaseHandler dBHandler = new DatabaseHandler(activity.getApplicationContext());
+						    dBHandler.Delete_product(product_id);
+						    Add_Update_Inventory.this.onResume();
+	
+						}
+					    });
+				    adb.show();
+				}
+
+		    });
+		    return row;
+
+		}
+
+		class UserHolder {
+		    TextView name;
+		    TextView measurement;
+		    TextView product_price;
+		    Button edit;
+		    Button delete;
+		}
+
+    }
+    
  
     public void Show_Toast(String msg) {
 	Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();

@@ -28,6 +28,7 @@ public class ProductActivity extends Activity{
     String Toast_msg;
     String meas;
 
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
@@ -75,17 +76,19 @@ public class ProductActivity extends Activity{
 		    int product =     Product_array_from_db.get(i).get_product();
 		    String name =     Product_array_from_db.get(i).get_name();
 		    int measurement = Product_array_from_db.get(i).get_measurement();
+		    Float price     = Product_array_from_db.get(i).get_price();
 		    
 		    Product cnt = new Product();
 		    cnt.set_product(product);
 		    cnt.set_name(name);
 		    cnt.set_measurement(measurement);
+		    cnt.set_price(price);
 		    
 	
 		    product_data.add(cnt);
 		}
 		db.close();
-		cAdapter = new Product_Adapter(ProductActivity.this, R.layout.listview_row,product_data);
+		cAdapter = new Product_Adapter(ProductActivity.this, R.layout.listview_row_prod,product_data);
 		product_listview.setAdapter(cAdapter);
 		cAdapter.notifyDataSetChanged();
     }
@@ -129,8 +132,10 @@ public class ProductActivity extends Activity{
 				holder = new UserHolder();
 				holder.name = (TextView) row.findViewById(R.id.user_name_txt);
 				holder.measurement = (TextView) row.findViewById(R.id.product_meas);
+				holder.product_price = (TextView) row.findViewById(R.id.product_price);
 				holder.edit = (Button) row.findViewById(R.id.btn_update);
 				holder.delete = (Button) row.findViewById(R.id.btn_delete);
+				
 				row.setTag(holder);
 		    } else {
 		    	holder = (UserHolder) row.getTag();
@@ -140,14 +145,15 @@ public class ProductActivity extends Activity{
 		    holder.delete.setTag(product.get_product());
 		    holder.name.setText(product.get_name());
 		    product.get_measurement();
-		    System.out.println(product.get_measurement());
+		    
 		    switch(product.get_measurement()){
 		    	case 0 : meas = "Unit"; break; 
 		    	case 1 :meas = "Kg";break;
 		    	case 2 :meas = "L";break;
 		    }
 		    holder.measurement.setText(meas);
-		    
+		    Float price = product.get_price();
+		    holder.product_price.setText(price.toString());
 
 		    holder.edit.setOnClickListener(new OnClickListener() {
 		    	@Override
@@ -198,7 +204,7 @@ public class ProductActivity extends Activity{
 		class UserHolder {
 		    TextView name;
 		    TextView measurement;
-		   
+		    TextView product_price;
 		    Button edit;
 		    Button delete;
 		}

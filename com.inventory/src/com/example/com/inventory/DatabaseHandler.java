@@ -281,7 +281,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				Integer.parseInt(cursor.getString(0)),
 					Integer.parseInt(cursor.getString(1)),
 					Integer.parseInt(cursor.getString(2)),
-					Integer.parseInt(cursor.getString(3))
+					Float.parseFloat(cursor.getString(3))
 		);
 		// return contact
 		cursor.close();
@@ -464,7 +464,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 				inventoryDet.setInventory(Integer.parseInt(cursor.getString(0)));
 				inventoryDet.setProduct(Integer.parseInt(cursor.getString(1)));
 				inventoryDet.setQuantity(Integer.parseInt(cursor.getString(2)));
-				inventoryDet.setAmount(Integer.parseInt(cursor.getString(3)));
+				inventoryDet.setAmount(Float.parseFloat(cursor.getString(3)));
 				
 			    
 			    // Adding clients to list

@@ -4,11 +4,11 @@ class InventoryDetail {
 	public int inventory;
 	public int product ;
 	public int quantity;
-	public int amount;
+	public Float amount;
 
 	public InventoryDetail(){}
 	
-	public InventoryDetail (int inventory ,int product , int quantity,int amount ){
+	public InventoryDetail (int inventory ,int product , int quantity,Float amount ){
 		this.inventory = inventory;
 		this.product   = product;
 		this.quantity  = quantity;
@@ -39,11 +39,11 @@ class InventoryDetail {
 		this.quantity = quantity;
 	}
 
-	public int getAmount() {
+	public Float getAmount() {
 		return amount;
 	}
 
-	public void setAmount(int amount) {
+	public void setAmount(Float amount) {
 		this.amount = amount;
 	}
 

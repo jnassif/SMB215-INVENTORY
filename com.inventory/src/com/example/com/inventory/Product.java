@@ -15,6 +15,11 @@ public class Product {
 		this._price = price ;
 	}
 	
+	@Override
+    public String toString() {
+        return this.get_product()+"-"+this.get_name(); // You can add anything else like maybe getDrinkType()
+    }
+	
 	public float get_price() {
 		return _price;
 	}

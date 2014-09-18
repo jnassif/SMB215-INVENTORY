@@ -49,7 +49,8 @@ public class Add_Update_Product extends Activity{
 	    Product c = dbHandler.Get_product(PRODUCT_ID);
 
 	    add_name.setText(c.get_name());
-	    
+	    Float price = c.get_price();
+	    add_qty.setText(price.toString());
 	    add_measurement.setSelection(c.get_measurement());
 	    
 	    // dbHandler.close();

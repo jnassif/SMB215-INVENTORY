@@ -27,7 +27,7 @@ public final class R {
     }
     public static final class id {
         public static final int OrderBtn=0x7f080003;
-        public static final int action_settings=0x7f080032;
+        public static final int action_settings=0x7f080034;
         public static final int add_address=0x7f080007;
         public static final int add_btn=0x7f080023;
         public static final int add_name=0x7f080006;
@@ -38,45 +38,47 @@ public final class R {
         public static final int add_view=0x7f080009;
         public static final int add_view_all=0x7f08000b;
         public static final int amountTxt=0x7f08001e;
-        public static final int btn_delete=0x7f08002b;
-        public static final int btn_update=0x7f08002a;
+        public static final int btn_delete=0x7f08002c;
+        public static final int btn_update=0x7f08002b;
         public static final int clientBtn=0x7f080002;
-        public static final int client_address=0x7f080030;
-        public static final int client_notes=0x7f080031;
+        public static final int client_address=0x7f080032;
+        public static final int client_notes=0x7f080033;
         public static final int client_spiner=0x7f080011;
-        public static final int client_txt=0x7f080025;
-        public static final int date_txt=0x7f080027;
+        public static final int client_txt=0x7f080026;
+        public static final int date_txt=0x7f080028;
         public static final int deliveryBtn=0x7f080004;
         public static final int invDetails=0x7f080019;
         public static final int invoiceBtn=0x7f080005;
-        public static final int list=0x7f080020;
+        public static final int list=0x7f080024;
         public static final int measurement=0x7f080022;
-        public static final int nature_txt=0x7f080026;
+        public static final int nature_txt=0x7f080027;
         public static final int parentView=0x7f08000f;
         public static final int parentView2=0x7f080012;
         public static final int parentView3=0x7f080015;
-        public static final int paymode=0x7f080029;
+        public static final int paymode=0x7f08002a;
         public static final int paymodeTxt=0x7f080016;
         public static final int paymode_spinner=0x7f080017;
         public static final int prodQty=0x7f08001c;
         public static final int prodQtyEditTxt=0x7f08001d;
         public static final int productBtn=0x7f080000;
+        public static final int productList=0x7f080020;
         public static final int productTxt=0x7f08001a;
-        public static final int product_meas=0x7f08002f;
+        public static final int product_meas=0x7f080031;
+        public static final int product_price=0x7f080030;
         public static final int product_spiner=0x7f08001b;
         public static final int textView1=0x7f080010;
         public static final int textView2=0x7f080018;
         public static final int update_btn=0x7f08000d;
         public static final int update_view=0x7f08000c;
         public static final int update_view_all=0x7f08000e;
-        public static final int user_email_txt=0x7f08002e;
-        public static final int user_mob_txt=0x7f08002d;
-        public static final int user_name_id=0x7f080024;
-        public static final int user_name_txt=0x7f08002c;
+        public static final int user_email_txt=0x7f08002f;
+        public static final int user_mob_txt=0x7f08002e;
+        public static final int user_name_id=0x7f080025;
+        public static final int user_name_txt=0x7f08002d;
         public static final int warehouseBtn=0x7f080001;
         public static final int warehouseSpinner=0x7f080014;
         public static final int warehouseTxt=0x7f080013;
-        public static final int warehouse_txt=0x7f080028;
+        public static final int warehouse_txt=0x7f080029;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -88,8 +90,9 @@ public final class R {
         public static final int inventory_activity=0x7f030006;
         public static final int listview_inventory=0x7f030007;
         public static final int listview_row=0x7f030008;
-        public static final int product_activity=0x7f030009;
-        public static final int warehouse_activity=0x7f03000a;
+        public static final int listview_row_prod=0x7f030009;
+        public static final int product_activity=0x7f03000a;
+        public static final int warehouse_activity=0x7f03000b;
     }
     public static final class menu {
         public static final int main=0x7f070000;
