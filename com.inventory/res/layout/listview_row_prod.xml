@@ -40,7 +40,7 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
             <TextView
                 android:id="@+id/product_meas"
-                android:layout_width="80px"
+                android:layout_width="100px"
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textAppearance="?android:attr/textAppearanceSmall" />

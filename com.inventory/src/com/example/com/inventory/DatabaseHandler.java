@@ -327,7 +327,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	return warehouse_list;
     }
     
- // Getting All products
+    // Getting All products
     public ArrayList<Product> Get_Products() {
 		try {
 		    product_list.clear();
@@ -447,12 +447,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
 
 	 // Getting All inventories detail
-    public ArrayList<InventoryDetail> Get_inventoriesDet() {
+    public ArrayList<InventoryDetail> Get_inventoriesDet(int inventory) {
 		try {
 			inventoryDet_list.clear();
 	
 		    // Select All Query
-		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY_DETAIL;
+		    String selectQuery = "SELECT  * FROM " + TABLE_INVENTORY_DETAIL + " where "+ KEY_INVDET_ID +" = "+inventory;
 	
 		    SQLiteDatabase db = this.getWritableDatabase();
 		    Cursor cursor = db.rawQuery(selectQuery, null);

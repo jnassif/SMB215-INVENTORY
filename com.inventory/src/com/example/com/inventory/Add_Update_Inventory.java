@@ -34,7 +34,7 @@ public class Add_Update_Inventory extends Activity{
 	Spinner add_warehouse;
 	Spinner add_paymode;
 	DatePicker datePicker;
-	ArrayList<Product> product_data = new ArrayList<Product>();
+	ArrayList<InventoryDetail> product_data = new ArrayList<InventoryDetail>();
 	Spinner  products_spiner;
 	EditText prodQtyEditTxt;
 	EditText prodAmount;
@@ -75,7 +75,7 @@ public class Add_Update_Inventory extends Activity{
 	    update_view.setVisibility(View.VISIBLE);
 	    add_view.setVisibility(View.GONE);
 	    INVENTORY_ID = Integer.parseInt(getIntent().getStringExtra("INVENTORY_ID"));
-	    product_listview = (ListView) findViewById(R.id.list);
+	    product_listview = (ListView) findViewById(R.id.productList);
 		product_listview.setItemsCanFocus(false);
 
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
@@ -133,6 +133,7 @@ public class Add_Update_Inventory extends Activity{
 		    Toast_msg = "Product inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
+		    Set_Referash_Data();
 	    }
 	});
 
@@ -277,22 +278,19 @@ public class Add_Update_Inventory extends Activity{
     	// remove all the elements from the array 
     	product_data.clear();
 		db = new DatabaseHandler(this);
-		ArrayList<Product> Product_array_from_db = db.Get_Products();
+		ArrayList<InventoryDetail> Product_array_from_db = db.Get_inventoriesDet(INVENTORY_ID);
 	
 		for (int i = 0; i < Product_array_from_db.size(); i++) {
 	
-		    int product =     Product_array_from_db.get(i).get_product();
-		    String name =     Product_array_from_db.get(i).get_name();
-		    int measurement = Product_array_from_db.get(i).get_measurement();
-		    Float price     = Product_array_from_db.get(i).get_price();
+		    int product   =     Product_array_from_db.get(i).getProduct();
+		    int quantity  =     Product_array_from_db.get(i).getQuantity();
+		    Float amount    = 	Product_array_from_db.get(i).getAmount();
 		    
-		    Product cnt = new Product();
-		    cnt.set_product(product);
-		    cnt.set_name(name);
-		    cnt.set_measurement(measurement);
-		    cnt.set_price(price);
+		    InventoryDetail cnt = new InventoryDetail();
+		    cnt.setProduct(product);
+		    cnt.setQuantity(quantity);
+		    cnt.setAmount(amount);
 		    
-	
 		    product_data.add(cnt);
 		}
 		db.close();
@@ -302,13 +300,13 @@ public class Add_Update_Inventory extends Activity{
     }
     
     //********************* Populate all the products  in the list *********************
-    public class Product_Adapter extends ArrayAdapter<Product> {
+    public class Product_Adapter extends ArrayAdapter<InventoryDetail> {
 		Activity activity;
 		int layoutResourceId;
-		Product product;
-		ArrayList<Product> data = new ArrayList<Product>();
+		InventoryDetail product;
+		ArrayList<InventoryDetail> data = new ArrayList<InventoryDetail>();
 
-		public Product_Adapter(Activity act, int layoutResourceId,ArrayList<Product> data) {
+		public Product_Adapter(Activity act, int layoutResourceId,ArrayList<InventoryDetail> data) {
 		    super(act, layoutResourceId, data);
 		    this.layoutResourceId = layoutResourceId;
 		    this.activity = act;
@@ -337,62 +335,19 @@ public class Add_Update_Inventory extends Activity{
 		    	holder = (UserHolder) row.getTag();
 		    }
 		    product = data.get(position);
-		    holder.edit.setTag(product.get_product());
-		    holder.delete.setTag(product.get_product());
-		    holder.name.setText(product.get_name());
-		    product.get_measurement();
+		    holder.edit.setTag(product.getProduct());
+		    holder.delete.setTag(product.getProduct());
+		    //holder.name.setText(product.getQuantity());
+		    Product p = db.Get_product(product.getProduct());
+		    holder.name.setText(p.get_name());
+		    Integer qty = product.getQuantity();
 		    
-		    switch(product.get_measurement()){
-		    	case 0 :meas = "Unit"; break; 
-		    	case 1 :meas = "Kg";break;
-		    	case 2 :meas = "L";break;
-		    }
-		    holder.measurement.setText(meas);
-		    Float price = product.get_price();
-		    holder.product_price.setText(price.toString());
+		    Float amount = product.getAmount();
+		    holder.measurement.setText(amount.toString());
+		    holder.product_price.setText(qty.toString());
 
-		    holder.edit.setOnClickListener(new OnClickListener() {
-		    	@Override
-				public void onClick(View v) {
-				    // TODO Auto-generated method stub
-				    Log.i("Edit Button Clicked", "**********");
-	
-				    Intent update_user = new Intent(activity,Add_Update_Product.class);
-				    update_user.putExtra("called", "update");
-				    update_user.putExtra("PRODUCT_ID", v.getTag().toString());
-				    activity.startActivity(update_user);
-	
-				}
-		    });
-		    
-		    holder.delete.setOnClickListener(new OnClickListener() {
-			    @Override
-				public void onClick(final View v) {
-				    // TODO Auto-generated method stub
-	
-				    // show a message while loader is loading
-	
-				    AlertDialog.Builder adb = new AlertDialog.Builder(activity);
-				    adb.setTitle("Delete?");
-				    adb.setMessage("Are you sure you want to delete ");
-				    final int product_id = Integer.parseInt(v.getTag().toString());
-				    adb.setNegativeButton("Cancel", null);
-				    adb.setPositiveButton("Ok",
-					    new AlertDialog.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog,
-							int which) {
-						    // MyDataObject.remove(positionToRemove);
-						    DatabaseHandler dBHandler = new DatabaseHandler(activity.getApplicationContext());
-						    dBHandler.Delete_product(product_id);
-						    Add_Update_Inventory.this.onResume();
-	
-						}
-					    });
-				    adb.show();
-				}
-
-		    });
+		   
+		   
 		    return row;
 
 		}

@@ -206,6 +206,14 @@
 	       />
     
 	</RelativeLayout>
+   <LinearLayout
+       android:id="@+id/update_view"
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:layout_marginTop="10dp"
+       android:orientation="horizontal"
+       android:weightSum="2" >
 	<Button
             android:id="@+id/add_save_prod_btn"
             android:layout_width="wrap_content"
@@ -217,10 +225,11 @@
             android:background="#000000"
             android:text="Add"
             android:textColor="#FFFFFF" />
+	</LinearLayout>
 	<ListView
             android:id="@+id/productList"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:focusable="false"
             android:focusableInTouchMode="false" />
 	
