@@ -63,7 +63,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="#000000"
-            android:text="Add User"
+            android:text="Add Client"
             android:textColor="#FFFFFF" />
 
         <Button

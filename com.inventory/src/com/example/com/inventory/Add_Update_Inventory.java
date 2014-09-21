@@ -45,7 +45,7 @@ public class Add_Update_Inventory extends Activity{
 	String meas;
 	DatabaseHandler db;
     Button add_save_btn, add_view_all, update_btn, update_view_all;
-    LinearLayout add_view, update_view;
+    LinearLayout add_view, update_view,add_products_view;
     String valid_mob_number = null, valid_address = null, valid_name = null,
 	    Toast_msg = null, valid_user_id = "",valid_notes = "" ;
     int INVENTORY_ID;
@@ -70,14 +70,12 @@ public class Add_Update_Inventory extends Activity{
 	if (called_from.equalsIgnoreCase("add")) {
 	    add_view.setVisibility(View.VISIBLE);
 	    update_view.setVisibility(View.GONE);
+	    add_products_view.setVisibility(View.GONE);
 	} else {
 			
 	    update_view.setVisibility(View.VISIBLE);
 	    add_view.setVisibility(View.GONE);
 	    INVENTORY_ID = Integer.parseInt(getIntent().getStringExtra("INVENTORY_ID"));
-	    product_listview = (ListView) findViewById(R.id.productList);
-		product_listview.setItemsCanFocus(false);
-
 	    Inventory c = dbHandler.Get_inventory(INVENTORY_ID);
 	    add_paymode.setSelection(c.get_paymode());
 	    Set_Referash_Data();
@@ -239,6 +237,8 @@ public class Add_Update_Inventory extends Activity{
 		add_clients = (Spinner) findViewById(R.id.client_spiner);
 		add_warehouse = (Spinner) findViewById(R.id.warehouseSpinner);
 		
+	    product_listview = (ListView) findViewById(R.id.productList);
+		product_listview.setItemsCanFocus(false);
 		
 		//elements to add a new product
 		products_spiner = (Spinner) findViewById(R.id.product_spiner);
@@ -266,7 +266,8 @@ public class Add_Update_Inventory extends Activity{
 		update_btn = (Button) findViewById(R.id.update_btn);
 		add_view_all = (Button) findViewById(R.id.add_view_all);
 		update_view_all = (Button) findViewById(R.id.update_view_all);
-	
+		
+		add_products_view = (LinearLayout) findViewById(R.id.add_products_view);
 		add_view = (LinearLayout) findViewById(R.id.add_view);
 		update_view = (LinearLayout) findViewById(R.id.update_view);
 	
@@ -335,8 +336,8 @@ public class Add_Update_Inventory extends Activity{
 		    	holder = (UserHolder) row.getTag();
 		    }
 		    product = data.get(position);
-		    holder.edit.setTag(product.getProduct());
-		    holder.delete.setTag(product.getProduct());
+		    //holder.edit.setTag(product.getProduct());
+		    //holder.delete.setTag(product.getProduct());
 		    //holder.name.setText(product.getQuantity());
 		    Product p = db.Get_product(product.getProduct());
 		    holder.name.setText(p.get_name());

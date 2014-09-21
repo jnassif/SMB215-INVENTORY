@@ -141,98 +141,106 @@
             android:text="View All"
             android:textColor="#FFFFFF" />
     </LinearLayout>
-	<View
-	    android:layout_width="fill_parent"
-	    android:layout_height="1dp"
-	    android:layout_marginTop="10px"
-	    android:background="@android:color/darker_gray"/>
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/add_products_view"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textSize="40px"
-        
-        android:textStyle="bold"
-        
-        android:text="Add Products" />
-    	<View
-	    android:layout_width="fill_parent"
-	    android:layout_height="1dp"
-	    android:layout_marginTop="10px"
-	    android:background="@android:color/darker_gray"/>
-    <RelativeLayout 
-	    android:id="@+id/invDetails"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical" >
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:weightSum="2" >
+		<View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="10px"
+		    android:background="@android:color/darker_gray"/>
 	    <TextView
-	        android:id="@+id/productTxt"
-	        android:layout_width="110px"
+	        android:id="@+id/textView2"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:text="Product"
-	        android:textSize="30px"
+	        android:textSize="40px"
 	        
-	       />
+	        android:textStyle="bold"
+	        
+	        android:text="Add Products" />
+	    	<View
+		    android:layout_width="fill_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="10px"
+		    android:background="@android:color/darker_gray"/>
+	    <RelativeLayout 
+		    android:id="@+id/invDetails"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical" >
+		    <TextView
+		        android:id="@+id/productTxt"
+		        android:layout_width="110px"
+		        android:layout_height="wrap_content"
+		        android:text="Product"
+		        android:textSize="30px"
+		        
+		       />
+		    
+		    <Spinner	
+		        android:id="@+id/product_spiner"
+		        android:layout_width="170px"
+		        android:layout_height="wrap_content" 
+		        android:layout_toRightOf="@+id/productTxt"/>
+		    <TextView
+		        android:id="@+id/prodQty"
+		        android:layout_width="70px"
+		        android:layout_height="wrap_content"
+		        android:text="Qty"
+		        android:textSize="30px"
+		        android:layout_toRightOf="@+id/product_spiner"
+		        />
+			<EditText
+			     android:id="@+id/prodQtyEditTxt"
+			     android:layout_width="170px"
+			     android:layout_height="wrap_content"
+			     android:ems="10" 
+			     android:layout_toRightOf="@+id/prodQty"
+			     android:inputType="number" 
+			    >
+			</EditText>
+			<TextView
+		        android:id="@+id/amountTxt"
+		        android:layout_width="110px"
+		        android:layout_height="wrap_content"
+		        android:text="Amount"
+		        android:textSize="30px"
+		        android:layout_toRightOf="@+id/prodQtyEditTxt" 
+		       />
 	    
-	    <Spinner	
-	        android:id="@+id/product_spiner"
-	        android:layout_width="170px"
-	        android:layout_height="wrap_content" 
-	        android:layout_toRightOf="@+id/productTxt"/>
-	    <TextView
-	        android:id="@+id/prodQty"
-	        android:layout_width="70px"
-	        android:layout_height="wrap_content"
-	        android:text="Qty"
-	        android:textSize="30px"
-	        android:layout_toRightOf="@+id/product_spiner"
-	        />
-		<EditText
-		     android:id="@+id/prodQtyEditTxt"
-		     android:layout_width="170px"
-		     android:layout_height="wrap_content"
-		     android:ems="10" 
-		     android:layout_toRightOf="@+id/prodQty"
-		     android:inputType="number" 
-		    >
-		</EditText>
-		<TextView
-	        android:id="@+id/amountTxt"
-	        android:layout_width="110px"
-	        android:layout_height="wrap_content"
-	        android:text="Amount"
-	        android:textSize="30px"
-	        android:layout_toRightOf="@+id/prodQtyEditTxt" 
-	       />
-    
-	</RelativeLayout>
-   <LinearLayout
-       android:id="@+id/update_view"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal"
-       android:weightSum="2" >
-	<Button
-            android:id="@+id/add_save_prod_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="1"
-            android:background="#000000"
-            android:text="Add"
-            android:textColor="#FFFFFF" />
-	</LinearLayout>
-	<ListView
-            android:id="@+id/productList"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
-	
-  
+		</RelativeLayout>
+	   <LinearLayout
+	       android:id="@+id/update_view"
+	       android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:layout_gravity="center"
+	       android:layout_marginTop="10dp"
+	       android:orientation="horizontal"
+	       android:weightSum="2" >
+		<Button
+	            android:id="@+id/add_save_prod_btn"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center"
+	            android:layout_marginLeft="5dp"
+	            android:layout_marginRight="5dp"
+	            android:layout_weight="1"
+	            android:background="#000000"
+	            android:text="Add"
+	            android:textColor="#FFFFFF" />
+		</LinearLayout>
+		<ListView
+	            android:id="@+id/productList"
+	            android:layout_width="fill_parent"
+	            android:layout_height="fill_parent"
+	            android:focusable="false"
+	            android:focusableInTouchMode="false" />
+		
+	  </LinearLayout>
 
 </LinearLayout>
