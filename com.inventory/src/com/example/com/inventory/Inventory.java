@@ -24,6 +24,11 @@ public class Inventory {
 	}
 
 	
+	@Override
+    public String toString() {
+        return String.valueOf(this.get_inventory());
+    }
+	
 	public int get_os() {
 		return _os;
 	}

@@ -14,7 +14,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	
 	// All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "inventory";
@@ -163,6 +163,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	public void Add_inventory(Inventory inventory) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
+		ContentValues values1 = new ContentValues();
 		
 		values.put(KEY_INV_CLIENT, inventory.get_client()); // warehouse address Phone
 		values.put(KEY_INV_NATURE, inventory.get_nature()); // warehouse Name
@@ -172,7 +173,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_INV_PAYMODE, inventory.get_paymode()); // warehouse Name
 		values.put(KEY_INV_OS, inventory.get_os()); // warehouse Name
 		values.put(KEY_INV_DOC_NUM, inventory.get_docNum()); // warehouse Name
-		
+		if(inventory.get_docNum() > 0 ){
+			//set outstanding field = to 1 
+			values1.put(KEY_INV_OS,0);
+			db.update(TABLE_INVENTORY,values1 , KEY_INV_ID +" = " + inventory.get_docNum() , null);
+		}
 		// Inserting Row
 		db.insert(TABLE_INVENTORY, null, values);
 		db.close(); // Closing database connection
@@ -405,8 +410,45 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 	return client_list;
     }
     
-   
-    
+ // Getting All outstanding inv
+    public ArrayList<Inventory> Get_inv(int nature ) {
+		try {
+		    product_list.clear();
+		    String selectQuery = "";
+		   
+		    if(nature == 1){
+			    // Select All Query
+			    selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " = 0 " ;
+		    }else if(nature == 2 ){
+				selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " IN (0,1) " ;	
+			 }
+			   
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    Cursor cursor = db.rawQuery(selectQuery, null);
+		   
+		    // looping through all rows and adding to list
+		    if (cursor.moveToFirst()) {
+				do {
+					Inventory inventory= new Inventory();
+					inventory.set_inventory(Integer.parseInt(cursor.getString(0)));
+					
+					// Adding clients to list
+					inventory_list.add(inventory);
+				} while (cursor.moveToNext());
+		   }
+		    
+		    // return client list
+		    cursor.close();
+		    db.close();
+		    return inventory_list;
+		} catch (Exception e) {
+		    // TODO: handle exception
+		    Log.e("all_inventories", "" + e);
+		}
+
+	return inventory_list;
+    }
+        
  // Getting All inventories
     public ArrayList<Inventory> Get_inventories(int nature) {
 		try {
@@ -540,6 +582,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_INV_THEDATE, inventory.get_theDate());
 		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse());
 		values.put(KEY_INV_PAYMODE, inventory.get_paymode());
+		values.put(KEY_INV_DOC_NUM, inventory.get_docNum());
 		
 		// updating row
 		return db.update(TABLE_INVENTORY, values, KEY_INV_ID + " = ?",
@@ -591,6 +634,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		db.delete(TABLE_INVENTORY, KEY_INV_ID + " = ?",
 			new String[] { String.valueOf(id) });
 		db.close();
+	
     }
     
   // Deleting single inventory detail

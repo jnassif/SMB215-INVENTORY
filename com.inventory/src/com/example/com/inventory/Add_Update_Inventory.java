@@ -24,20 +24,19 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Add_Update_Inventory extends Activity{
 	
-	Spinner add_clients;
-	Spinner add_warehouse;
-	Spinner add_paymode;
+	Spinner add_clients,add_warehouse,add_paymode,inventory_spinner,products_spiner;
+	
 	DatePicker datePicker;
 	ArrayList<InventoryDetail> product_data = new ArrayList<InventoryDetail>();
-	Spinner  products_spiner;
-	EditText prodQtyEditTxt;
-	EditText prodAmount;
+	EditText prodQtyEditTxt,prodAmount;
+	
 	ListView product_listview;
 	Product_Adapter cAdapter;
 	Button add_save_prod_btn;
@@ -46,12 +45,13 @@ public class Add_Update_Inventory extends Activity{
 	DatabaseHandler db;
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view,add_products_view;
+    RelativeLayout parentView4;
     String valid_mob_number = null, valid_address = null, valid_name = null,
 	    Toast_msg = null, valid_user_id = "",valid_notes = "" ;
     int INVENTORY_ID;
     int NATURE;
     int paymode ;
-    
+    String doc_num = "0";
     DatabaseHandler dbHandler = new DatabaseHandler(this);
 
     @Override
@@ -60,13 +60,15 @@ public class Add_Update_Inventory extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_update_inventory);
 	
-		// set screen
-		Set_Add_Update_Screen();
-
 		// set visibility of view as per calling activity
 		String called_from = getIntent().getStringExtra("called");
 		NATURE = Integer.parseInt(getIntent().getStringExtra("inv_nature"));
 		
+		// set screen
+		Set_Add_Update_Screen();
+
+	if(NATURE == 0 )parentView4.setVisibility(View.GONE);
+	
 	if (called_from.equalsIgnoreCase("add")) {
 	    add_view.setVisibility(View.VISIBLE);
 	    update_view.setVisibility(View.GONE);
@@ -86,11 +88,12 @@ public class Add_Update_Inventory extends Activity{
 	}
 	
 	
+
 	add_save_btn.setOnClickListener(new View.OnClickListener() {
 
 	    @Override
 	    public void onClick(View v) {
-			
+	    	
 	    	//get client
 	    	String[] client_inf 	= add_clients.getSelectedItem().toString().split("-");
 	    	int client_id = Integer.parseInt(client_inf[0]);
@@ -103,12 +106,22 @@ public class Add_Update_Inventory extends Activity{
 	    	//get paymode
 	    	int pay_mode = add_paymode.getSelectedItemPosition();
 	    	
-	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,0));
+	    	if(NATURE == 1 || NATURE == 2){
+	    		try{
+		    		inventory_spinner.getSelectedItem().toString();
+		    		doc_num = inventory_spinner.getSelectedItem().toString();
+	    		}catch(NullPointerException e){
+	    			doc_num = "0";
+	    		}
+	    	}
+	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,Integer.parseInt(doc_num)));
 		    Toast_msg = "Data inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
 	    }
 	});
+	
+	
 	
 	add_save_prod_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -175,7 +188,7 @@ public class Add_Update_Inventory extends Activity{
 	    public void onClick(View v) {
 		// TODO Auto-generated method stub
 
-    
+	    	
     	//get client
     	String[] client_inf 	= add_clients.getSelectedItem().toString().split("-");
     	int client_id = Integer.parseInt(client_inf[0]);
@@ -187,11 +200,17 @@ public class Add_Update_Inventory extends Activity{
     	today.setToNow();
     	//get paymode
     	int pay_mode = add_paymode.getSelectedItemPosition();
-    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay:"+pay_mode);
-    	Log.e("INVENTORY_ID",String.valueOf(INVENTORY_ID));
+    	if(NATURE == 1 || NATURE == 2){
+    		try{
+	    		inventory_spinner.getSelectedItem().toString();
+	    		doc_num = inventory_spinner.getSelectedItem().toString();
+    		}catch(NullPointerException e){
+    			doc_num = "0";
+    		}
+    	}
 	    
-	    
-	    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,0));
+    	
+	    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,Integer.parseInt(doc_num)));
 	    dbHandler.close();
 	    Toast_msg = "Data Update successfully";
 	    Show_Toast(Toast_msg);
@@ -234,6 +253,7 @@ public class Add_Update_Inventory extends Activity{
 		add_paymode = (Spinner) findViewById(R.id.paymode_spinner);
 		add_clients = (Spinner) findViewById(R.id.client_spiner);
 		add_warehouse = (Spinner) findViewById(R.id.warehouseSpinner);
+		inventory_spinner  =(Spinner) findViewById(R.id.inventory_spinner);
 		
 	    product_listview = (ListView) findViewById(R.id.productList);
 		product_listview.setItemsCanFocus(false);
@@ -245,20 +265,27 @@ public class Add_Update_Inventory extends Activity{
 		
 		//add new product to inventory
 		add_save_prod_btn = (Button) findViewById(R.id.add_save_prod_btn);
+		parentView4 = (RelativeLayout) findViewById(R.id.parentView4);
 		
 		String[] test=new String[]{"Check","Cash","Visa"};
+		ArrayAdapter<Inventory> inv_del_array = new ArrayAdapter<Inventory>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_inv(NATURE));
 		ArrayAdapter<String> paymode_array= new ArrayAdapter<String>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, test);
 		ArrayAdapter<Client>client_array= new ArrayAdapter<Client>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_clients());
 		ArrayAdapter<Warehouse>warehouse_array= new ArrayAdapter<Warehouse>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_Warehouses());
 		ArrayAdapter<Product>products_array = new ArrayAdapter<Product>(Add_Update_Inventory.this,android.R.layout.simple_spinner_item, dbHandler.Get_Products());
 		
+		products_spiner.setAdapter(products_array);
+	
 		
 		//populate spinner
 		add_paymode.setAdapter(paymode_array);
 		add_clients.setAdapter(client_array );
-		add_warehouse.setAdapter(warehouse_array );
-		products_spiner.setAdapter(products_array );
+		add_warehouse.setAdapter(warehouse_array);
 		
+		if(NATURE == 1 || NATURE == 2) {
+			//check the nature of inv 
+			inventory_spinner.setAdapter(inv_del_array);
+		}
 		add_save_btn = (Button) findViewById(R.id.add_save_btn);
 		
 		update_btn = (Button) findViewById(R.id.update_btn);

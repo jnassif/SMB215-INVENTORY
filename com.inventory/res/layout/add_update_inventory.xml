@@ -73,7 +73,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/paymodeTxt" />
+	
 	</RelativeLayout>
+	<RelativeLayout 
+    android:id="@+id/parentView4"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/invTxt"
+        android:layout_width="170px"
+        android:layout_height="wrap_content"
+        android:text="Doc Num"
+        android:textSize="30px"
+       />
+    <Spinner
+        android:id="@+id/inventory_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/invTxt" />
+	
+	</RelativeLayout>
+	
     <LinearLayout
         android:id="@+id/add_view"
         android:layout_width="fill_parent"

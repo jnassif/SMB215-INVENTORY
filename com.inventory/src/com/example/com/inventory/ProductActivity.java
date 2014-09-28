@@ -141,6 +141,7 @@ public class ProductActivity extends Activity{
 		    	holder = (UserHolder) row.getTag();
 		    }
 		    product = data.get(position);
+		    Log.e("asd", String.valueOf(product.get_product()));
 		    holder.edit.setTag(product.get_product());
 		    holder.delete.setTag(product.get_product());
 		    holder.name.setText(product.get_name());
