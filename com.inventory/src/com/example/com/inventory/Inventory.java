@@ -7,19 +7,39 @@ public class Inventory {
 	public String _theDate;
 	public int _warehouse;
 	public int _paymode;
+	public int _os;
+	public int _docNum;
 	
 	public Inventory(){}
 	
-	public Inventory (int inventory,int client , int nature , String theDate, int warehouse, int paymode){
+	public Inventory (int inventory,int client , int nature , String theDate, int warehouse, int paymode,int os, int docNum){
 		this._inventory = inventory;
 		this._client    = client;
 		this._nature    = nature;
 		this._theDate   = theDate;
 		this._warehouse = warehouse;
 		this._paymode   = paymode;
+		this._os   		= os;
+		this._docNum     = docNum;
 	}
 
 	
+	public int get_os() {
+		return _os;
+	}
+
+	public void set_os(int _os) {
+		this._os = _os;
+	}
+
+	public int get_docNum() {
+		return _docNum;
+	}
+
+	public void set_docNum(int _docNum) {
+		this._docNum = _docNum;
+	}
+
 	public int get_inventory() {
 		return _inventory;
 	}

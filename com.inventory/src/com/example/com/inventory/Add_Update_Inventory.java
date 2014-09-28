@@ -102,10 +102,8 @@ public class Add_Update_Inventory extends Activity{
 	    	today.setToNow();
 	    	//get paymode
 	    	int pay_mode = add_paymode.getSelectedItemPosition();
-	    	Log.e("c"+client_id+",ware"+warehouse_id+",date:"+NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year)+",pay:"+pay_mode);
-	    	Log.e("INVENTORY_ID",String.valueOf(INVENTORY_ID));
 	    	
-	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode));
+	    	dbHandler.Add_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,0));
 		    Toast_msg = "Data inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
@@ -193,7 +191,7 @@ public class Add_Update_Inventory extends Activity{
     	Log.e("INVENTORY_ID",String.valueOf(INVENTORY_ID));
 	    
 	    
-	    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode ));
+	    dbHandler.Update_inventory(new Inventory(INVENTORY_ID,client_id,NATURE,String.valueOf(today.monthDay+"/"+today.month+"/"+today.year),warehouse_id,pay_mode,1,0));
 	    dbHandler.close();
 	    Toast_msg = "Data Update successfully";
 	    Show_Toast(Toast_msg);

@@ -53,6 +53,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_INV_THEDATE = "thedate";
     private static final String KEY_INV_WARHOUSE = "warehouse";
     private static final String KEY_INV_PAYMODE = "payement_mode";
+    private static final String KEY_INV_OS = "os";
+    private static final String KEY_INV_DOC_NUM = "doc_num";
     private final ArrayList<Inventory> inventory_list = new ArrayList<Inventory>();
     
     //inventoryDet table
@@ -93,7 +95,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		String CREATE_INVENTORY_TABLE = "CREATE TABLE " + TABLE_INVENTORY + "("
 		+ KEY_INV_ID + " INTEGER PRIMARY KEY," + KEY_INV_CLIENT + " INTEGER,"
 		+ KEY_INV_NATURE + " INTEGER," + KEY_INV_THEDATE  + " TEXT ," + KEY_INV_WARHOUSE + " INTEGER ,"
-		+ KEY_INV_PAYMODE + " INTEGER " + ")";
+		+ KEY_INV_PAYMODE + " INTEGER, " + KEY_INV_OS + " INTEGER, " + KEY_INV_DOC_NUM + " INTEGER " + ")";
 		db.execSQL(CREATE_INVENTORY_TABLE);
 		
 		//create inventory detail table
@@ -168,6 +170,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_INV_WARHOUSE, inventory.get_warehouse()); // warehouse Nam
 		
 		values.put(KEY_INV_PAYMODE, inventory.get_paymode()); // warehouse Name
+		values.put(KEY_INV_OS, inventory.get_os()); // warehouse Name
+		values.put(KEY_INV_DOC_NUM, inventory.get_docNum()); // warehouse Name
 		
 		// Inserting Row
 		db.insert(TABLE_INVENTORY, null, values);
@@ -252,14 +256,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_INVENTORY, new String[] { KEY_INV_ID,
-				KEY_INV_CLIENT, KEY_INV_NATURE,KEY_INV_THEDATE,KEY_INV_WARHOUSE,KEY_INV_PAYMODE
+				KEY_INV_CLIENT, KEY_INV_NATURE,KEY_INV_THEDATE,KEY_INV_WARHOUSE,KEY_INV_PAYMODE,KEY_INV_OS,KEY_INV_DOC_NUM
 				}, KEY_INV_ID + "=?",
 			new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 		    cursor.moveToFirst();
 	
 		Inventory inventory = new Inventory(Integer.parseInt(cursor.getString(0)),
-			Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)),cursor.getString(3),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)));
+			Integer.parseInt(cursor.getString(1)), Integer.parseInt(cursor.getString(2)),cursor.getString(3),Integer.parseInt(cursor.getString(4)),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)),Integer.parseInt(cursor.getString(7)));
 		// return contact
 		cursor.close();
 		db.close();
