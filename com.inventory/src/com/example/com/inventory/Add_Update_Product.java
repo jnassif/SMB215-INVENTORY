@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 public class Add_Update_Product extends Activity{
 	EditText add_name;
-	EditText add_qty;
+	EditText add_qty,starting_inv;
 	Spinner add_measurement;
     Button add_save_btn, add_view_all, update_btn, update_view_all;
     LinearLayout add_view, update_view;
@@ -63,9 +63,8 @@ public class Add_Update_Product extends Activity{
 	    public void onClick(View v) {
 		// TODO Auto-generated method stub
 		// check the value state is null or not
-	    	Log.e("asda","" +add_measurement.getSelectedItemPosition());
-	    	System.out.println(add_measurement.getSelectedItemPosition()+"sadlasioidas;ondo;asindo;asj");
-		    dbHandler.Add_product(new Product(PRODUCT_ID,add_name.getText().toString(),add_measurement.getSelectedItemPosition(),Float.parseFloat(add_qty.getText().toString())));
+	    	
+		    dbHandler.Add_product(new Product(PRODUCT_ID,add_name.getText().toString(),add_measurement.getSelectedItemPosition(),Float.parseFloat(add_qty.getText().toString()),Integer.parseInt(starting_inv.getText().toString())));
 		    Toast_msg = "Data inserted successfully";
 		    Show_Toast(Toast_msg);
 		    Reset_Text();
@@ -88,7 +87,8 @@ public class Add_Update_Product extends Activity{
 		// check the value state is null or not
 		if (valid_name != null  ) {
 
-		    dbHandler.Update_product(new Product(PRODUCT_ID, valid_name,measurement,Float.parseFloat(prodQty)));
+		    dbHandler.Update_product( new Product(PRODUCT_ID,add_name.getText().toString(),add_measurement.getSelectedItemPosition(),Float.parseFloat(add_qty.getText().toString()),Integer.parseInt(starting_inv.getText().toString())));
+		                            
 		    dbHandler.close();
 		    Toast_msg = "Data Update successfully";
 		    Show_Toast(Toast_msg);
@@ -131,6 +131,7 @@ public class Add_Update_Product extends Activity{
     public void Set_Add_Update_Screen() {
 
 		add_name = (EditText) findViewById(R.id.add_name);
+		starting_inv = (EditText) findViewById(R.id.starting_inv);
 		add_measurement = (Spinner) findViewById(R.id.measurement);
 		add_qty = (EditText) findViewById(R.id.add_qty);
 		

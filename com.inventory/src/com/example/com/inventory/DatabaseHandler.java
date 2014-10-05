@@ -37,6 +37,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_PROD_NAME = "name";
     private static final String KEY_PROD_MEASUREMENT = "measurement";
     private static final String KEY_PROD_QTY = "quantity";
+    private static final String KEY_START_INV = "starting_inv";
     private final ArrayList<Product> product_list = new ArrayList<Product>();
 
     //Clients Table Columns names
@@ -63,6 +64,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_INVDET_QTY = "quantity";
     private static final String KEY_INVDET_AMOUNT = "amount";
     private final ArrayList<InventoryDetail> inventoryDet_list = new ArrayList<InventoryDetail>();
+    private final ArrayList<Stock> stock_list = new ArrayList<Stock>();
     
     
     public DatabaseHandler(Context context) {
@@ -81,7 +83,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		//create prodcuts table
 		String CREATE_PRODUCT_TABLE = "CREATE TABLE " + TABLE_PRODUCTS + "("
 		+ KEY_PROD_ID + " INTEGER PRIMARY KEY," + KEY_PROD_NAME + " TEXT,"
-		+ KEY_PROD_MEASUREMENT + " INTEGER, " + KEY_PROD_QTY + " FLOAT "+ ")";
+		+ KEY_PROD_MEASUREMENT + " INTEGER, " + KEY_PROD_QTY + " FLOAT, "+ KEY_START_INV + " INTEGER" + ")";
 		db.execSQL(CREATE_PRODUCT_TABLE);
 	
 		//create client table
@@ -140,6 +142,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_PROD_NAME, product.get_name()); // warehouse Name
 		values.put(KEY_PROD_MEASUREMENT, product.get_measurement()); // warehouse address Phone
 		values.put(KEY_PROD_QTY, product.get_price());//get product price
+		values.put(KEY_START_INV, product.get_starting_inv());//get product price
 		
 		// Inserting Row
 		db.insert(TABLE_PRODUCTS, null, values);
@@ -222,13 +225,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		Cursor cursor = db.query(TABLE_PRODUCTS, new String[] { KEY_PROD_ID,
-		KEY_PROD_NAME, KEY_PROD_MEASUREMENT,KEY_PROD_QTY}, KEY_PROD_ID + "=?",
+		KEY_PROD_NAME, KEY_PROD_MEASUREMENT,KEY_PROD_QTY,KEY_START_INV}, KEY_PROD_ID + "=?",
 			new String[] { String.valueOf(id) }, null, null, null, null);
 		if (cursor != null)
 		    cursor.moveToFirst();
 	
-		Product product = new Product(Integer.parseInt(cursor.getString(0)),
-			cursor.getString(1), Integer.parseInt(cursor.getString(2)),Float.parseFloat(cursor.getString(3)));
+		Product product = new Product(Integer.parseInt(cursor.getString(0)),cursor.getString(1), Integer.parseInt(cursor.getString(2)),Float.parseFloat(cursor.getString(3)),Integer.parseInt(cursor.getString(4)));
 		// return contact
 		cursor.close();
 		db.close();
@@ -412,6 +414,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     
  // Getting All outstanding inv
     public ArrayList<Inventory> Get_inv(int nature ) {
+    	
 		try {
 		    product_list.clear();
 		    String selectQuery = "";
@@ -421,7 +424,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 			    selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " = 0 " ;
 		    }else if(nature == 2 ){
 				selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " IN (0,1) " ;	
-			 }
+			}else if(nature == 4 ){
+				selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " =  3 " ;	
+			}else if(nature == 5 ){
+				selectQuery = "SELECT  * FROM " + TABLE_INVENTORY + " WHERE " + KEY_INV_OS + " = 1 and " + KEY_INV_NATURE + " IN (3,4) " ;	
+			}
 			   
 		    SQLiteDatabase db = this.getWritableDatabase();
 		    Cursor cursor = db.rawQuery(selectQuery, null);
@@ -551,6 +558,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		values.put(KEY_PROD_NAME, product.get_name());
 		values.put(KEY_PROD_MEASUREMENT, product.get_measurement());
 		values.put(KEY_PROD_QTY, product.get_price());
+		values.put(KEY_START_INV, product.get_starting_inv());
 		
 		// updating row
 		return db.update(TABLE_PRODUCTS, values, KEY_PROD_ID + " = ?",
@@ -656,4 +664,49 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 		return cursor.getCount();
     }
     
+    // Getting All inventories detail
+    public ArrayList<Stock> getProdStockView(int product_id) {
+		try {
+			
+			stock_list.clear();
+	
+		    // Select All Queryeee
+		    String selectQuery = 
+		    	" SELECT "+ KEY_START_INV +",-1 " +
+		        " FROM " +TABLE_PRODUCTS + 
+		    	" where " + KEY_PROD_ID +" = "+product_id+
+		    	" UNION SELECT " + KEY_INVDET_QTY + ","+ KEY_INV_NATURE +
+		    	" FROM " 
+		    		+ TABLE_INVENTORY + "," +  TABLE_INVENTORY_DETAIL +
+		    	" where " + TABLE_INVENTORY + "." + KEY_INVDET_ID  + " = " + TABLE_INVENTORY_DETAIL +"." + KEY_INV_ID + " and  " 
+		    	  	+ KEY_INVDET_PRODUCT + " = " + product_id + " and ( " 
+		    	  	+"(" + KEY_INV_NATURE + " = 1 and " + KEY_INV_OS + " = 1) OR (" + KEY_INV_NATURE + " = 2 )" 
+		    	  	+ " OR (" + KEY_INV_NATURE + " = 4 and  " + KEY_INV_OS + " = 1 ) OR (" + KEY_INV_NATURE + " = 5)) ";
+		    
+		    SQLiteDatabase db = this.getWritableDatabase();
+		    Cursor cursor = db.rawQuery(selectQuery, null);
+	
+		    // looping through all rows and adding to list
+		    if (cursor.moveToFirst()) {
+				do {
+					Stock stock= new Stock();
+					stock.setQty(Integer.parseInt(cursor.getString(0)));
+					stock.setNature(Integer.parseInt(cursor.getString(1)));
+					Log.e("chikabonita",String.valueOf(Integer.parseInt(cursor.getString(1))));
+					// Adding clients to list
+					stock_list.add(stock);
+				} while (cursor.moveToNext());
+		   }
+	
+		    // return client list
+		    cursor.close();
+		    db.close();
+		    return stock_list;
+		} catch (Exception e) {
+		    // TODO: handle exception
+		    Log.e("all_inventoriesDet", "" + e);
+		}
+
+	return stock_list;
+    }		
 }

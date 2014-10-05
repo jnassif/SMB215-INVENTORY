@@ -184,8 +184,7 @@ public class InventoryActivity extends Activity{
 				    update_user.putExtra("inv_nature",nature );
 				    update_user.putExtra("INVENTORY_ID", v.getTag().toString());
 				    activity.startActivity(update_user);
-	
-				}
+		    	}
 		    });
 		    
 		    holder.delete.setOnClickListener(new OnClickListener() {

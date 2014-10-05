@@ -1,57 +1,143 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
-
-    <Button
-        android:id="@+id/productBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-    
-        android:text="Product" />
-
-    <Button
-        android:id="@+id/warehouseBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-   
-        android:layout_below="@+id/productBtn"
-      
-        android:text="Warehouse" />
-
-    <Button
-        android:id="@+id/clientBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-       	android:layout_below="@+id/warehouseBtn"
-       	android:text="Client" />
-    
-    <Button
-        android:id="@+id/OrderBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-       	android:layout_below="@+id/clientBtn"
-       	android:text="Order" />
-    <Button
-        android:id="@+id/deliveryBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-       	android:layout_below="@+id/OrderBtn"
-       	android:text="Delivery" />
-    <Button
-        android:id="@+id/invoiceBtn"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-       
-        android:layout_below="@+id/deliveryBtn"
-       
-        android:text="Invoice" />
-
-</RelativeLayout>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  tools:context=".MainActivity"
+  android:fillViewport="true"
+  android:background="#F0EEEE"
+  >
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    >
+		<TextView
+		    android:id="@+id/DelTxt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="120px"
+	        android:layout_alignParentLeft="true"
+	        android:rotation="-90"
+	        android:text="Definitions"
+	        android:textStyle="bold" 
+	        />
+	    <RelativeLayout 
+	        android:id="@+id/DefBtns"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_toRightOf="@+id/DelTxt"
+		    android:background="@drawable/back"
+		    >
+		    <Button
+		        android:id="@+id/productBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentTop="true"
+		        android:text="Product" />
+		
+		    <Button
+		        android:id="@+id/warehouseBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		   
+		        android:layout_below="@+id/productBtn"
+		      
+		        android:text="Warehouse" />
+		
+		    <Button
+		        android:id="@+id/clientBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		       	android:layout_below="@+id/warehouseBtn"
+		       	android:text="Client" />
+	    </RelativeLayout>
+		<TextView
+		    android:id="@+id/DelTxt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="120px"
+	        android:layout_below="@+id/DefBtns"
+	        android:layout_alignParentLeft="true"
+	        android:rotation="-90"
+	        android:text="Delivery" 
+	        android:textStyle="bold"
+	        />
+	    <RelativeLayout 
+	        android:id="@+id/DelBtn"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_toRightOf="@+id/DelTxt"
+		    android:layout_below="@+id/DefBtns"
+		     android:layout_marginTop="10px"
+		    android:background="@drawable/back"
+		    >
+	    	
+		    <Button
+		        android:id="@+id/OrderBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		       
+		    	android:text="Order" />
+		    <Button
+		        android:id="@+id/deliveryBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		       	android:layout_below="@+id/OrderBtn"
+		        android:text="Delivery" />
+		    <Button
+		        android:id="@+id/invoiceBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/deliveryBtn"
+		      	android:text="Invoice" />
+	    </RelativeLayout>
+	    <TextView
+		    android:id="@+id/DelTxt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="100px"
+	        android:layout_below="@+id/DelBtn"
+	        android:layout_alignParentLeft="true"
+	        android:rotation="-90"
+	        android:text="Purchase"
+	        
+	        android:textStyle="bold"
+	         />
+	    <RelativeLayout 
+	        android:id="@+id/PurBtn"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_toRightOf="@+id/DelTxt"
+		    android:layout_below="@+id/DelBtn"
+		    android:layout_marginTop="10px"
+		    android:background="@drawable/back"
+		    >
+		    <Button
+		        android:id="@+id/purOrderBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		      
+		       
+		       	android:text="Order" />
+		    <Button
+		        android:id="@+id/purDeliveryBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		       	android:layout_below="@+id/purOrderBtn"
+		       	
+		       	android:text="Delivery" />
+		    <Button
+		        android:id="@+id/purInvoiceBtn"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@+id/purDeliveryBtn"
+		        android:text="Invoice" />
+	   </RelativeLayout>
+	
+	</RelativeLayout>
+</ScrollView>

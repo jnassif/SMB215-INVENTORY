@@ -67,7 +67,7 @@ public class Add_Update_Inventory extends Activity{
 		// set screen
 		Set_Add_Update_Screen();
 
-	if(NATURE == 0 )parentView4.setVisibility(View.GONE);
+	if(NATURE == 0 || NATURE == 3 )parentView4.setVisibility(View.GONE);
 	
 	if (called_from.equalsIgnoreCase("add")) {
 	    add_view.setVisibility(View.VISIBLE);
@@ -106,7 +106,7 @@ public class Add_Update_Inventory extends Activity{
 	    	//get paymode
 	    	int pay_mode = add_paymode.getSelectedItemPosition();
 	    	
-	    	if(NATURE == 1 || NATURE == 2){
+	    	if(NATURE == 1 || NATURE == 2 || NATURE == 4 || NATURE == 5){
 	    		try{
 		    		inventory_spinner.getSelectedItem().toString();
 		    		doc_num = inventory_spinner.getSelectedItem().toString();
@@ -282,8 +282,9 @@ public class Add_Update_Inventory extends Activity{
 		add_clients.setAdapter(client_array );
 		add_warehouse.setAdapter(warehouse_array);
 		
-		if(NATURE == 1 || NATURE == 2) {
+		if(NATURE == 1 || NATURE == 2 || NATURE == 4 || NATURE == 5 ) {
 			//check the nature of inv 
+		
 			inventory_spinner.setAdapter(inv_del_array);
 		}
 		add_save_btn = (Button) findViewById(R.id.add_save_btn);

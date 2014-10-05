@@ -15,6 +15,9 @@ Button Product;
 Button order;
 Button delivery;
 Button invoice;
+Button purOrderBtn;
+Button purDeliveryBtn;
+Button purInvoiceBtn;
 Intent warehouseActivity;
 Intent clientActivity;
 Intent productActivity;
@@ -31,6 +34,9 @@ Intent inventoryActivity;
 		order 	 	 = (Button) findViewById(R.id.OrderBtn);
 		delivery 	 = (Button) findViewById(R.id.deliveryBtn);
 		invoice 	 = (Button) findViewById(R.id.invoiceBtn);
+		purOrderBtn 	 	 = (Button) findViewById(R.id.purOrderBtn);
+		purDeliveryBtn 	 = (Button) findViewById(R.id.purDeliveryBtn);
+		purInvoiceBtn 	 = (Button) findViewById(R.id.purInvoiceBtn);
 		
 		
 		//on click open warehouse activity 
@@ -96,6 +102,36 @@ Intent inventoryActivity;
 				// TODO Auto-generated method stub
 				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
 				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","2").commit();
+				startActivity(inventoryActivity);
+			}
+		});	
+		purOrderBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","3").commit();
+				startActivity(inventoryActivity);
+			}
+		});	
+		purDeliveryBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","4").commit();
+				startActivity(inventoryActivity);
+			}
+		});	
+		purInvoiceBtn.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				inventoryActivity = new Intent(MainActivity.this,InventoryActivity.class);
+				PreferenceManager.getDefaultSharedPreferences(MainActivity.this).edit().putString("condition","5").commit();
 				startActivity(inventoryActivity);
 			}
 		});	

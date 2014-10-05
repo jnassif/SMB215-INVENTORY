@@ -135,6 +135,8 @@ public class ProductActivity extends Activity{
 				holder.product_price = (TextView) row.findViewById(R.id.product_price);
 				holder.edit = (Button) row.findViewById(R.id.btn_update);
 				holder.delete = (Button) row.findViewById(R.id.btn_delete);
+				holder.stockCard = (Button) row.findViewById(R.id.stockCard);
+				
 				
 				row.setTag(holder);
 		    } else {
@@ -144,6 +146,7 @@ public class ProductActivity extends Activity{
 		    Log.e("asd", String.valueOf(product.get_product()));
 		    holder.edit.setTag(product.get_product());
 		    holder.delete.setTag(product.get_product());
+		    holder.stockCard.setTag(product.get_product());
 		    holder.name.setText(product.get_name());
 		    product.get_measurement();
 		    
@@ -167,6 +170,15 @@ public class ProductActivity extends Activity{
 				    update_user.putExtra("PRODUCT_ID", v.getTag().toString());
 				    activity.startActivity(update_user);
 	
+				}
+		    });
+		    holder.stockCard.setOnClickListener(new OnClickListener() {
+		    	@Override
+				public void onClick(View v) {
+				    // TODO Auto-generated method stub
+		    		Intent update_user = new Intent(activity,StockCard.class);
+		    		update_user.putExtra("PRODUCT_ID", v.getTag().toString());
+				    activity.startActivity(update_user);
 				}
 		    });
 		    
@@ -208,6 +220,7 @@ public class ProductActivity extends Activity{
 		    TextView product_price;
 		    Button edit;
 		    Button delete;
+		    Button stockCard;
 		}
 
     }

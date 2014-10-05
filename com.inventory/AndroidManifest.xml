@@ -36,6 +36,13 @@
                
             </intent-filter>
         </activity>
+          <activity
+            android:name="com.example.com.inventory.StockCard"
+            android:label="@string/app_name" >
+            <intent-filter>
+               
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.example.com.inventory.ProductActivity"
             android:label="@string/app_name" >

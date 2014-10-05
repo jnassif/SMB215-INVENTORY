@@ -23,7 +23,17 @@
 
         <requestFocus />
     </EditText>
-    
+    <EditText
+        android:id="@+id/starting_inv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Starting Inventory"
+        android:inputType="number"
+         >
+
+        <requestFocus />
+    </EditText>
     <EditText
         android:id="@+id/add_qty"
         android:layout_width="match_parent"
@@ -35,6 +45,7 @@
 
         <requestFocus />
     </EditText>
+    
 
     <Spinner
         android:id="@+id/measurement"
