@@ -64,7 +64,7 @@
 	        android:layout_below="@+id/DefBtns"
 	        android:layout_alignParentLeft="true"
 	        android:rotation="-90"
-	        android:text="Delivery" 
+	        android:text="Sales" 
 	        android:textStyle="bold"
 	        />
 	    <RelativeLayout 
