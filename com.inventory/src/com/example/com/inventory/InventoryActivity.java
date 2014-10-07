@@ -32,7 +32,7 @@ public class InventoryActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.product_activity);
+	setContentView(R.layout.inventory_activity);
 	nature =  PreferenceManager.getDefaultSharedPreferences(InventoryActivity.this).getString("condition", "defaultStringIfNothingFound");
 	try {
 		inventory_listview = (ListView) findViewById(R.id.list);

@@ -100,11 +100,17 @@ public class StockCard extends Activity {
 				    if( stock.getNature() == -1) {
 				    	NATURE = " Starting inventory";
 				    	start_inv_qty = start_inv_qty + stock.getQty();
-				    }else if( stock.getNature() == 1 || stock.getNature() == 2 ){
-				    	NATURE = " Delivery ";
+				    }else if( stock.getNature() == 1  ){
+				    	NATURE = " Sales Delivery ";
 				    	del_qty = del_qty + stock.getQty();
-				    }else if( stock.getNature() == 4 || stock.getNature() == 5 ){
-				    	NATURE = " Purchase ";
+				    }else if( stock.getNature() == 2  ){
+				    	NATURE = " Sales Invoice ";
+				    	del_qty = del_qty + stock.getQty();
+				    }else if( stock.getNature() == 4  ){
+				    	NATURE = " Purchase Delivery ";
+				    	pur_qty = pur_qty + stock.getQty();
+				    }else if( stock.getNature() == 5  ){
+				    	NATURE = " Purchase Invoice ";
 				    	pur_qty = pur_qty + stock.getQty();
 				    }
 				 }

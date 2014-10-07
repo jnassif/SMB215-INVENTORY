@@ -20,7 +20,7 @@
         android:background="#000000"
         android:clickable="false"
         android:focusable="false"
-        android:text="Add Inventory"
+        android:text="Add"
         android:textColor="#FFFFFF" />
 </LinearLayout>
 <LinearLayout

@@ -692,7 +692,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 					Stock stock= new Stock();
 					stock.setQty(Integer.parseInt(cursor.getString(0)));
 					stock.setNature(Integer.parseInt(cursor.getString(1)));
-					Log.e("chikabonita",String.valueOf(Integer.parseInt(cursor.getString(1))));
+					
 					// Adding clients to list
 					stock_list.add(stock);
 				} while (cursor.moveToNext());
